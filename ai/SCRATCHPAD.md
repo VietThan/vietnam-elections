@@ -1,0 +1,253 @@
+## Plan: SQLite schema design for staging + future-proofing
+
+### Goals
+- Normalize the current CSVs into a staging DB that can export JSON for the site.
+- Keep room for multi-cycle data, boundary changes, and richer sources later.
+- Preserve raw strings from PDFs/CSV while enabling structured fields.
+
+### Inputs reviewed
+- `data/na-15-2021/congressional-units-parsed.csv`
+- `data/na-15-2021/candidates-list/*.csv`
+
+### Proposed schema (tables + purpose)
+Core reference
+- `election_cycle`: one row per cycle (e.g., NA 15, year 2021).
+- `locality`: province/city scoped to a cycle (with normalized name + raw name).
+- `constituency`: per-cycle unit; links to locality; stores seat count + description.
+- `constituency_district`: one-to-many from constituency to district names (split from CSV).
+
+People & candidacy
+- `person`: canonical person record (optional cross-cycle anchor).
+- `candidate_entry`: per-cycle candidacy; links to person + constituency.
+- `candidate_attribute`: key/value for fields that are not yet fully normalized (education, occupation, etc.).
+
+Sources & documents
+- `document`: source documents (PDF/DOCX/CSV), with fetched/published dates.
+- `source`: field-level citations (document + URL + field name + notes).
+- `change_log`: optional future change tracking per record.
+
+### Key fields (high-level)
+`election_cycle`
+- `id`, `name`, `year`, `type`, `start_date`, `end_date`, `notes`
+
+`locality`
+- `id`, `name`, `name_folded`, `type` (province/city), `cycle_id` (required), `effective_from`, `effective_to`, `notes`
+
+`constituency`
+- `id`, `cycle_id`, `locality_id`, `unit_number`, `seat_count`, `description`, `unit_context_raw`
+
+`constituency_district`
+- `id`, `constituency_id`, `name`, `name_folded`, `notes`
+
+`person`
+- `id`, `full_name`, `full_name_folded`, `dob`, `gender`, `nationality`, `ethnicity`, `religion`, `birthplace`, `current_residence`
+
+`candidate_entry`
+- `id`, `person_id`, `cycle_id`, `constituency_id`, `list_order`, `party_member_since`, `is_na_delegate`, `is_council_delegate`
+
+`candidate_attribute`
+- `id`, `candidate_entry_id`, `key`, `value`, `value_folded`, `notes`
+
+`document`
+- `id`, `title`, `url`, `file_path`, `doc_type`, `published_date`, `fetched_date`, `notes`
+
+`source`
+- `id`, `document_id`, `record_type`, `record_id`, `field`, `url`, `notes`
+
+`change_log`
+- `id`, `record_type`, `record_id`, `change_type`, `changed_at`, `summary`
+
+### Constraints & indexing (proposal)
+- Unique: `constituency` on (`cycle_id`, `locality_id`, `unit_number`).
+- Unique: `candidate_entry` on (`cycle_id`, `constituency_id`, `list_order`).
+- Unique: `source` on (`record_type`, `record_id`, `field`, `url`).
+- Indexes: folded name fields; `candidate_entry` by `cycle_id`, `constituency_id`.
+
+### Open questions to confirm
+- Whether to add a `party` table now (currently not present in sources).
+- How to store “Là đại biểu QH/HĐND” values (boolean vs. text enum).
+
+### Next step (after approval)
+- Translate this plan into a concrete SQLite schema (DDL) and a mapping from CSV fields to tables.
+
+---
+
+## SQLite schema (DDL draft)
+
+```sql
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE election_cycle (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  year INTEGER NOT NULL,
+  type TEXT NOT NULL,
+  start_date TEXT,
+  end_date TEXT,
+  notes TEXT
+);
+
+CREATE TABLE locality (
+  id TEXT PRIMARY KEY,
+  cycle_id TEXT NOT NULL REFERENCES election_cycle(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  name_folded TEXT NOT NULL,
+  type TEXT NOT NULL,
+  effective_from TEXT,
+  effective_to TEXT,
+  notes TEXT
+);
+
+CREATE TABLE constituency (
+  id TEXT PRIMARY KEY,
+  cycle_id TEXT NOT NULL REFERENCES election_cycle(id) ON DELETE CASCADE,
+  locality_id TEXT NOT NULL REFERENCES locality(id) ON DELETE RESTRICT,
+  unit_number INTEGER NOT NULL,
+  seat_count INTEGER NOT NULL,
+  description TEXT,
+  unit_context_raw TEXT
+);
+
+CREATE TABLE constituency_district (
+  id TEXT PRIMARY KEY,
+  constituency_id TEXT NOT NULL REFERENCES constituency(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  name_folded TEXT NOT NULL,
+  notes TEXT
+);
+
+CREATE TABLE person (
+  id TEXT PRIMARY KEY,
+  full_name TEXT NOT NULL,
+  full_name_folded TEXT NOT NULL,
+  dob TEXT,
+  gender TEXT,
+  nationality TEXT,
+  ethnicity TEXT,
+  religion TEXT,
+  birthplace TEXT,
+  current_residence TEXT
+);
+
+CREATE TABLE candidate_entry (
+  id TEXT PRIMARY KEY,
+  person_id TEXT NOT NULL REFERENCES person(id) ON DELETE RESTRICT,
+  cycle_id TEXT NOT NULL REFERENCES election_cycle(id) ON DELETE CASCADE,
+  constituency_id TEXT NOT NULL REFERENCES constituency(id) ON DELETE RESTRICT,
+  list_order INTEGER NOT NULL,
+  party_member_since TEXT,
+  is_na_delegate TEXT,
+  is_council_delegate TEXT
+);
+
+CREATE TABLE candidate_attribute (
+  id TEXT PRIMARY KEY,
+  candidate_entry_id TEXT NOT NULL REFERENCES candidate_entry(id) ON DELETE CASCADE,
+  key TEXT NOT NULL,
+  value TEXT,
+  value_folded TEXT,
+  notes TEXT
+);
+
+CREATE TABLE document (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  url TEXT,
+  file_path TEXT,
+  doc_type TEXT NOT NULL,
+  published_date TEXT,
+  fetched_date TEXT,
+  notes TEXT
+);
+
+CREATE TABLE source (
+  id TEXT PRIMARY KEY,
+  document_id TEXT NOT NULL REFERENCES document(id) ON DELETE RESTRICT,
+  record_type TEXT NOT NULL,
+  record_id TEXT NOT NULL,
+  field TEXT NOT NULL,
+  url TEXT,
+  notes TEXT
+);
+
+CREATE TABLE change_log (
+  id TEXT PRIMARY KEY,
+  record_type TEXT NOT NULL,
+  record_id TEXT NOT NULL,
+  change_type TEXT NOT NULL,
+  changed_at TEXT NOT NULL,
+  summary TEXT
+);
+
+CREATE UNIQUE INDEX ux_constituency_cycle_locality_unit
+  ON constituency (cycle_id, locality_id, unit_number);
+
+CREATE UNIQUE INDEX ux_candidate_cycle_constituency_order
+  ON candidate_entry (cycle_id, constituency_id, list_order);
+
+CREATE UNIQUE INDEX ux_source_record_field_url
+  ON source (record_type, record_id, field, url);
+
+CREATE INDEX ix_locality_name_folded ON locality (name_folded);
+CREATE INDEX ix_person_name_folded ON person (full_name_folded);
+CREATE INDEX ix_district_name_folded ON constituency_district (name_folded);
+CREATE INDEX ix_candidate_cycle ON candidate_entry (cycle_id);
+CREATE INDEX ix_candidate_constituency ON candidate_entry (constituency_id);
+```
+
+## CSV → table mapping (current data)
+
+### `data/na-15-2021/congressional-units-parsed.csv`
+- `congressional_unit_id` → `constituency.id` (stable per cycle; recommend prefix: `na15-2021-const-<id>`)
+- `associated_province` → `locality.name`
+- `province_congressional_unit_number` → `constituency.unit_number`
+- `representatives_count` → `constituency.seat_count`
+- `districts` (comma-separated) → `constituency_district.name` rows
+
+Derived
+- `locality.name_folded` = folded `associated_province`
+- `constituency.description` = `districts` raw (optional)
+- `constituency.cycle_id` = `na15-2021` (example)
+- `constituency.locality_id` = lookup by folded name + cycle
+- `constituency_district.name_folded` = folded district name
+
+### `data/na-15-2021/candidates-list/*.csv`
+Common columns (per row)
+- `unit_context` → `constituency.unit_context_raw`
+- `province_or_city` → `locality.name` (should match constituency locality)
+- `unit_number` → `constituency.unit_number` (lookup to resolve `constituency_id`)
+- `unit_description` → `constituency.description` (optional)
+- `STT` → `candidate_entry.list_order`
+
+Person fields
+- `Họ và tên` → `person.full_name`
+- `Ngày tháng năm sinh` → `person.dob` (store raw string; parse later if needed)
+- `Giới tính` → `person.gender`
+- `Quốc tịch` → `person.nationality`
+- `Dân tộc` → `person.ethnicity`
+- `Tôn giáo` → `person.religion`
+- `Quê quán` → `person.birthplace`
+- `Nơi ở hiện nay` → `person.current_residence`
+
+Candidate fields
+- `Ngày vào Đảng` → `candidate_entry.party_member_since`
+- `Là đại biểu QH` → `candidate_entry.is_na_delegate` (store raw string)
+- `Là đại biểu HĐND` → `candidate_entry.is_council_delegate` (store raw string)
+
+Attributes (store as `candidate_attribute`)
+- `Trình độ học vấn - Giáo dục phổ thông` → key: `education_general`
+- `Trình độ học vấn - Chuyên môn, nghiệp vụ` → key: `education_professional`
+- `Trình độ học vấn - Học hàm, học vị` → key: `education_academic_rank`
+- `Trình độ học vấn - Lý luận chính trị` → key: `education_political`
+- `Trình độ học vấn - Ngoại ngữ` → key: `education_languages`
+- `Nghề nghiệp, chức vụ` → key: `occupation_title`
+- `Nơi công tác` → key: `workplace`
+
+Derived
+- `person.full_name_folded` = folded `Họ và tên`
+- `candidate_entry.id` = `na15-2021-<constituency_id>-<STT>`
+
+## Notes
+- Folded fields: lowercase, trim, remove diacritics, collapse whitespace.
+- Keep raw strings to preserve source fidelity; parse later if needed.
+- Use `document` + `source` for citations once URLs + timestamps are collected.
