@@ -12,6 +12,7 @@ Static, source-linked directory of official Vietnam election candidates. Built a
 - `public/data/`: exported JSON used by the UI at runtime.
 - `data/na15-2021/`: raw inputs, staging scripts, and QA checks for NA15-2021.
 - `data/staging.db`: SQLite staging database (build artifact).
+- `docs/style-guide.md`: visual style guide (palette, typography, components, motion).
 
 ## Getting Started
 ```bash
