@@ -231,7 +231,7 @@ export default function CandidatesListClient({ cycle }: { cycle?: string }) {
           Tìm theo họ tên, địa phương, hoặc đơn vị bầu cử.
         </p>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-          <div className="flex flex-1 items-center gap-2 rounded-xl border-2 border-[var(--border)] bg-[var(--surface)] px-3 py-2">
+          <div className="flex flex-1 items-center gap-2 rounded-xl border-2 border-[var(--border)] bg-[var(--surface)] px-3 py-2 focus-within:border-[var(--flag-red)] focus-within:ring-2 focus-within:ring-[var(--flag-yellow)]/60">
             <input
               className="w-full bg-transparent text-sm text-[var(--ink)] placeholder:text-[var(--ink-muted)] focus:outline-none"
               placeholder="Search name, locality, constituency"
@@ -249,7 +249,7 @@ export default function CandidatesListClient({ cycle }: { cycle?: string }) {
               </button>
             )}
           </div>
-          <div className="flex items-center gap-2 rounded-xl border-2 border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--ink-muted)]">
+          <div className="flex items-center gap-2 rounded-xl border-2 border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--ink-muted)] focus-within:border-[var(--flag-red)] focus-within:ring-2 focus-within:ring-[var(--flag-yellow)]/60">
             <span className="text-xs uppercase tracking-[0.2em] text-[var(--flag-red-deep)]">Locality</span>
             <select
               className="bg-transparent text-sm text-[var(--ink)] focus:outline-none"
@@ -265,7 +265,7 @@ export default function CandidatesListClient({ cycle }: { cycle?: string }) {
               ))}
             </select>
           </div>
-          <div className="flex items-center gap-2 rounded-xl border-2 border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--ink-muted)]">
+          <div className="flex items-center gap-2 rounded-xl border-2 border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--ink-muted)] focus-within:border-[var(--flag-red)] focus-within:ring-2 focus-within:ring-[var(--flag-yellow)]/60">
             <span className="text-xs uppercase tracking-[0.2em] text-[var(--flag-red-deep)]">Constituency</span>
             <select
               className="bg-transparent text-sm text-[var(--ink)] focus:outline-none"
@@ -281,7 +281,7 @@ export default function CandidatesListClient({ cycle }: { cycle?: string }) {
               ))}
             </select>
           </div>
-          <div className="flex items-center gap-2 rounded-xl border-2 border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--ink-muted)]">
+          <div className="flex items-center gap-2 rounded-xl border-2 border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--ink-muted)] focus-within:border-[var(--flag-red)] focus-within:ring-2 focus-within:ring-[var(--flag-yellow)]/60">
             <span className="text-xs uppercase tracking-[0.2em] text-[var(--flag-red-deep)]">Sort</span>
             <select
               className="bg-transparent text-sm text-[var(--ink)] focus:outline-none"

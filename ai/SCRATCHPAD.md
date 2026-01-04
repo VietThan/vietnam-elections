@@ -105,6 +105,7 @@ Move away from default black/white Next.js look with a bold, distinctive visual 
 - Milestone 2: completed (header/footer, theme toggle, key hero sections).
 - Milestone 3: completed (cards, filters, list items, detail pages).
 - Milestone 4: completed (stagger motion + background accents).
+- Milestone 5: completed (focus states + contrast polish).
 
 ## Milestone 3.1: Readability fixes (requested)
 - CycleNav active tab contrast fix (selected text vs background).

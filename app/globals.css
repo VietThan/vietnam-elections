@@ -47,6 +47,16 @@ a:hover {
   color: var(--flag-red-deep);
 }
 
+a:focus-visible {
+  outline: 2px solid var(--flag-yellow);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--flag-yellow);
+  color: var(--ink);
+}
+
 @keyframes fade-rise {
   from {
     opacity: 0;
