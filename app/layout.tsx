@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
+import MobileNav from "./mobile-nav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -61,6 +62,7 @@ export default function RootLayout({
                   Disclaimer
                 </Link>
               </nav>
+              <MobileNav />
             </div>
           </header>
           <main id="main-content" className="mx-auto w-full max-w-6xl px-6 py-12">
