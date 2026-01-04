@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import CycleNav from "./CycleNav";
 
 type TimelinePayload = {
   cycle_id: string;
@@ -68,6 +69,7 @@ export default async function ElectionOverviewPage({
 
   return (
     <div className="grid gap-8">
+      <CycleNav cycle={cycle} />
       <section className="rounded-3xl border border-zinc-200/80 bg-white/90 p-8 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.25)]">
         {timeline && candidates ? (
           <>

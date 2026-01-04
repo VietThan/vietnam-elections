@@ -1,4 +1,5 @@
 import CandidatesListClient from "./CandidatesListClient";
+import CycleNav from "../CycleNav";
 
 const SUPPORTED_CYCLES = ["na15-2021", "na16-2026"];
 
@@ -11,5 +12,10 @@ export default function CandidatesListPage({
 }: {
   params: { cycle: string };
 }) {
-  return <CandidatesListClient cycle={params.cycle} />;
+  return (
+    <div className="grid gap-6">
+      <CycleNav cycle={params.cycle} />
+      <CandidatesListClient cycle={params.cycle} />
+    </div>
+  );
 }

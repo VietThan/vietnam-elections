@@ -40,7 +40,7 @@
 
 ### Phase 4 — Multi-cycle Support
 - [x] Elections index page listing cycles
-- [ ] Per-cycle routing + navigation
+- [x] Per-cycle routing + navigation
 - [ ] Add second cycle dataset to validate routing
 - [x] Add stub cycle entry for `na16-2026` (no dataset yet)
 

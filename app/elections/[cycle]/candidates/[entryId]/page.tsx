@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import CycleNav from "../../CycleNav";
 
 type CandidateDetailPayload = {
   entry_id: string;
@@ -178,6 +179,7 @@ export default async function CandidateDetailPage({
 
   return (
     <div className="grid gap-6">
+      <CycleNav cycle={cycle} />
       <Link
         href={`/elections/${cycle}/candidates`}
         className="text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-600"

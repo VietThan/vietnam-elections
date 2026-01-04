@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -38,21 +39,21 @@ export default function RootLayout({
                 </div>
               </div>
               <nav className="hidden items-center gap-5 text-sm font-medium text-zinc-600 md:flex">
-                <a className="hover:text-zinc-900" href="/">
+                <Link className="hover:text-zinc-900" href="/">
                   Home
-                </a>
-                <a className="hover:text-zinc-900" href="/elections">
+                </Link>
+                <Link className="hover:text-zinc-900" href="/elections">
                   Elections
-                </a>
-                <a className="hover:text-zinc-900" href="/methodology">
+                </Link>
+                <Link className="hover:text-zinc-900" href="/methodology">
                   Methodology
-                </a>
-                <a className="hover:text-zinc-900" href="/sources">
+                </Link>
+                <Link className="hover:text-zinc-900" href="/sources">
                   Sources
-                </a>
-                <a className="hover:text-zinc-900" href="/disclaimer">
+                </Link>
+                <Link className="hover:text-zinc-900" href="/disclaimer">
                   Disclaimer
-                </a>
+                </Link>
               </nav>
             </div>
           </header>
