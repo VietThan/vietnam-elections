@@ -92,6 +92,14 @@ export default function RootLayout({
                 <Link className="hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--flag-yellow)]/70" href="/changelog">
                   Changelog
                 </Link>
+                <a
+                  className="hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--flag-yellow)]/70"
+                  href="https://github.com/VietThan/vietnam-elections"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  GitHub
+                </a>
               </div>
             </div>
           </footer>
