@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   build:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,6 +44,7 @@ jobs:
 
   deploy:
     needs: build
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     environment:
       name: github-pages
