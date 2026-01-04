@@ -1,9 +1,9 @@
 export default function Home() {
   return (
-    <div className="grid gap-12">
-      <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-8 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Coming soon</p>
-        <h1 className="mt-4 text-3xl font-semibold leading-tight text-zinc-900">
+    <div className="grid gap-10">
+      <section className="rounded-3xl border border-zinc-200/80 bg-white/90 p-8 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.25)]">
+        <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Landing</p>
+        <h1 className="mt-3 text-3xl font-semibold leading-tight text-zinc-900">
           Vietnam Elections
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-7 text-zinc-600">
@@ -14,11 +14,63 @@ export default function Home() {
           Dữ liệu bầu cử Việt Nam: thư mục tĩnh, có nguồn trích dẫn, tổng hợp thông
           tin ứng cử viên từ tài liệu chính thức.
         </p>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <a
+            href="/elections/na15-2021/candidates"
+            className="rounded-2xl border border-zinc-200/80 bg-white px-5 py-4 text-sm font-semibold text-zinc-900 transition hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md"
+          >
+            Search candidates (2021)
+            <span className="mt-2 block text-xs font-normal text-zinc-500">
+              Find official entries by name or locality.
+            </span>
+          </a>
+          <a
+            href="/elections/na15-2021/constituencies"
+            className="rounded-2xl border border-zinc-200/80 bg-white px-5 py-4 text-sm font-semibold text-zinc-900 transition hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md"
+          >
+            Browse constituencies (2021)
+            <span className="mt-2 block text-xs font-normal text-zinc-500">
+              See districts and seat counts.
+            </span>
+          </a>
+          <a
+            href="/sources"
+            className="rounded-2xl border border-zinc-200/80 bg-white px-5 py-4 text-sm font-semibold text-zinc-900 transition hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md"
+          >
+            Sources & methodology
+            <span className="mt-2 block text-xs font-normal text-zinc-500">
+              How the data is collected.
+            </span>
+          </a>
+          <a
+            href="/elections/na16-2026"
+            className="rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 px-5 py-4 text-sm font-semibold text-zinc-600"
+          >
+            2026 cycle (coming soon)
+            <span className="mt-2 block text-xs font-normal text-zinc-500">
+              Dataset not yet published.
+            </span>
+          </a>
+        </div>
       </section>
 
       <section className="grid gap-6 md:grid-cols-2">
         <div className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-zinc-900">Scope</h2>
+          <h2 className="text-lg font-semibold text-zinc-900">What you can do</h2>
+          <p className="mt-2 text-sm text-zinc-600">
+            Explore official candidate entries, see constituency boundaries, and verify
+            information against published sources.
+          </p>
+          <ul className="mt-4 space-y-2 text-sm text-zinc-600">
+            <li>Search candidates by name, locality, or constituency.</li>
+            <li>Browse constituencies and district coverage.</li>
+            <li>Review official source documents and timestamps.</li>
+          </ul>
+        </div>
+
+        <div className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-zinc-900">Scope and neutrality</h2>
           <p className="mt-2 text-sm text-zinc-600">
             This site documents official candidate lists by election cycle, locality,
             and constituency. No endorsements, rankings, or user comments.
@@ -27,37 +79,31 @@ export default function Home() {
             Phạm vi: danh sách ứng cử viên theo kỳ bầu cử, địa phương và đơn vị bầu cử.
             Không có nhận xét, xếp hạng, hay bình luận.
           </p>
-          <ul className="mt-4 space-y-2 text-sm text-zinc-600">
-            <li>Static build, no backend.</li>
-            <li>Every field tied to a source.</li>
-            <li>Public change logs for updates.</li>
-          </ul>
-        </div>
-
-        <div className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-zinc-900">Data sources</h2>
-          <p className="mt-2 text-sm text-zinc-600">
-            Initial focus: 15th National Assembly (2021) candidate list and
-            congressional unit documents.
-          </p>
-          <p className="mt-3 text-sm text-zinc-500">
-            Nguồn dữ liệu ban đầu: danh sách ứng cử viên Quốc hội khóa XV (2021)
-            và tài liệu đơn vị bầu cử.
-          </p>
-          <div className="mt-4 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-4 text-xs text-zinc-500">
-            Links will be published alongside the directory pages.
-          </div>
         </div>
       </section>
 
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-zinc-900">Status</h2>
+        <h2 className="text-lg font-semibold text-zinc-900">Quick links</h2>
         <p className="mt-2 text-sm text-zinc-600">
-          The data pipeline is in place. The public directory UI is under construction.
+          Jump directly to key sections of the directory.
         </p>
-        <p className="mt-3 text-sm text-zinc-500">
-          Hệ thống dữ liệu đã sẵn sàng. Giao diện công bố đang được hoàn thiện.
-        </p>
+        <div className="mt-4 grid gap-3 text-sm text-zinc-600 sm:grid-cols-2 lg:grid-cols-3">
+          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/elections">
+            Elections index
+          </a>
+          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/elections/na15-2021/candidates">
+            Candidates (2021)
+          </a>
+          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/elections/na15-2021/constituencies">
+            Constituencies (2021)
+          </a>
+          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/sources">
+            Sources
+          </a>
+          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/methodology">
+            Methodology
+          </a>
+        </div>
       </section>
     </div>
   );

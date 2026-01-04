@@ -62,6 +62,17 @@
 - [x] Add client-side search/filter by locality/district
 - [x] Add links from cycle overview to constituencies page
 
+### Phase 8 — Home Page Landing
+- [x] 8.1 Define primary user intents + CTA order
+- [x] 8.2 Update home page layout + copy to funnel to core tasks
+- [x] 8.3 Add quick links to Elections, Candidates, Constituencies, Sources/Methodology
+
+Phase 8.1 CTA order:
+1) Search candidates (2021)
+2) Browse constituencies (2021)
+3) View sources/methodology
+4) 2026 cycle (coming soon)
+
 ## Notes / Open Questions
 
 - JSON exports chosen (static hosting + client search).
@@ -73,3 +84,10 @@
 - Search index fields: name + locality + constituency (folded).
 - Current exports have empty `sources` arrays and `changelog` entries; citations + diffs still need plumbing.
 - Baseline citations now point to the official candidate list PDF for each candidate entry.
+
+## Home Page — Landing Questions (Phase TBD)
+- Primary user intent is unclear; likely tasks include: find current cycle, search candidates, browse constituencies, see sources/methodology.
+- Current home page is informational but does not funnel to the main tasks (elections list, candidate search, constituencies).
+- Consider adding clear CTAs: “Browse 2026 cycle (coming soon)”, “Explore 2021 candidates”, “View constituencies”, “See sources/methodology”.
+- Add a short “What you can do here” panel with 3–4 bullets and direct links.
+- Once usage is clearer, prioritize a single hero action (e.g., “Search candidates”).
