@@ -38,6 +38,16 @@ export default function MethodologyPage() {
           <li>Source coverage checks for each entry.</li>
         </ul>
       </section>
+
+      <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
+        <h2 className="text-lg font-semibold text-zinc-900">Field notes</h2>
+        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
+          Ghi chu truong du lieu
+        </p>
+        <ul className="mt-4 grid gap-3 text-sm text-zinc-600">
+          <li>General education uses the Vietnamese grade system (12/12 = completed high school; 10/10 = older system).</li>
+        </ul>
+      </section>
     </div>
   );
 }

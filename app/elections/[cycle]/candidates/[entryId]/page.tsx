@@ -257,6 +257,10 @@ export default async function CandidateDetailPage({
           <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
             Thong tin bo sung
           </p>
+          <p className="mt-3 text-xs text-zinc-500">
+            Note: General education uses the Vietnamese grade system (12/12 = completed
+            high school; 10/10 = older system).
+          </p>
           <div className="mt-4 grid gap-3 text-sm text-zinc-600 sm:grid-cols-2">
             {payload.attributes.map((attr) => {
               const label = ATTRIBUTE_LABELS[attr.key];
