@@ -53,7 +53,52 @@ type CandidateDetailPayload = {
   changelog: Array<{ change_type: string; changed_at: string; summary: string | null }>;
 };
 
+const ATTRIBUTE_LABELS: Record<string, { en: string; vi: string }> = {
+  education_general: {
+    en: "General education",
+    vi: "Giáo dục phổ thông",
+  },
+  education_professional: {
+    en: "Professional training",
+    vi: "Chuyên môn, nghiệp vụ",
+  },
+  education_academic_rank: {
+    en: "Academic rank/degree",
+    vi: "Học hàm, học vị",
+  },
+  education_political: {
+    en: "Political theory",
+    vi: "Lý luận chính trị",
+  },
+  education_languages: {
+    en: "Foreign languages",
+    vi: "Ngoại ngữ",
+  },
+  occupation_title: {
+    en: "Occupation/position",
+    vi: "Nghề nghiệp, chức vụ",
+  },
+  workplace: {
+    en: "Workplace",
+    vi: "Nơi công tác",
+  },
+};
+
 const SUPPORTED_CYCLES = ["na15-2021"];
+
+function groupSources(
+  sources: CandidateDetailPayload["sources"]
+): Array<{ title: string; items: CandidateDetailPayload["sources"] }> {
+  const map = new Map<string, CandidateDetailPayload["sources"]>();
+  sources.forEach((source) => {
+    const key = source.title || "Untitled document";
+    if (!map.has(key)) {
+      map.set(key, []);
+    }
+    map.get(key)?.push(source);
+  });
+  return Array.from(map.entries()).map(([title, items]) => ({ title, items }));
+}
 
 async function readJson<T>(filePath: string): Promise<T> {
   const raw = await fs.readFile(filePath, "utf-8");
@@ -140,7 +185,7 @@ export default async function CandidateDetailPage({
         Back to candidates
       </Link>
 
-      <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-8 shadow-sm">
+      <section className="rounded-3xl border border-zinc-200/80 bg-white/90 p-8 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.25)]">
         <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">{cycle}</p>
         <h1 className="mt-4 text-3xl font-semibold text-zinc-900">
           {payload.person.full_name}
@@ -173,6 +218,9 @@ export default async function CandidateDetailPage({
 
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">Profile</h2>
+        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
+          Ho so ung cu vien
+        </p>
         <div className="mt-4 grid gap-3 text-sm text-zinc-600 sm:grid-cols-2">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-zinc-400">Gender</span>
@@ -204,39 +252,60 @@ export default async function CandidateDetailPage({
       {payload.attributes.length > 0 && (
         <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-zinc-900">Attributes</h2>
+          <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
+            Thong tin bo sung
+          </p>
           <div className="mt-4 grid gap-3 text-sm text-zinc-600 sm:grid-cols-2">
-            {payload.attributes.map((attr) => (
-              <div key={attr.key}>
-                <span className="text-xs uppercase tracking-[0.2em] text-zinc-400">
-                  {attr.key.replace(/_/g, " ")}
-                </span>
-                <p className="mt-1">{attr.value || "—"}</p>
-              </div>
-            ))}
+            {payload.attributes.map((attr) => {
+              const label = ATTRIBUTE_LABELS[attr.key];
+              return (
+                <div key={attr.key}>
+                  <span className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+                    {label ? `${label.en} · ${label.vi}` : attr.key.replace(/_/g, " ")}
+                  </span>
+                  <p className="mt-1">{attr.value || "—"}</p>
+                </div>
+              );
+            })}
           </div>
         </section>
       )}
 
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">Sources</h2>
+        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
+          Nguon tai lieu
+        </p>
         <p className="mt-2 text-sm text-zinc-600">
           Each field is tied to an official document. Links below reference the source
           documents used for this entry.
         </p>
         <div className="mt-4 grid gap-3">
-          {payload.sources.map((source) => (
-            <a
-              key={`${source.document_id}-${source.field}`}
-              href={source.url ?? "#"}
-              className="rounded-xl border border-zinc-200/80 bg-white px-4 py-3 text-sm text-zinc-600 transition hover:border-zinc-300 hover:text-zinc-900"
+          {groupSources(payload.sources).map((group) => (
+            <div
+              key={group.title}
+              className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 text-sm text-zinc-600"
             >
               <div className="flex flex-col gap-1">
-                <span className="font-semibold text-zinc-900">{source.title}</span>
+                <span className="font-semibold text-zinc-900">{group.title}</span>
                 <span className="text-xs text-zinc-500">
-                  Field: {source.field} · Fetched: {formatDate(source.fetched_date)}
+                  Fields: {group.items.map((item) => item.field).join(", ")}
                 </span>
               </div>
-            </a>
+              {group.items[0]?.url && (
+                <a
+                  className="mt-2 inline-flex text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-600"
+                  href={group.items[0].url}
+                >
+                  Open source
+                </a>
+              )}
+              {group.items[0]?.fetched_date && (
+                <div className="mt-2 text-xs text-zinc-500">
+                  Fetched: {formatDate(group.items[0].fetched_date)}
+                </div>
+              )}
+            </div>
           ))}
           {payload.sources.length === 0 && (
             <p className="text-sm text-zinc-500">No sources listed yet.</p>

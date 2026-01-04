@@ -29,7 +29,7 @@ export default function RootLayout({
           <header className="border-b border-zinc-200/80 bg-white/70 backdrop-blur">
             <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-zinc-900 text-white flex items-center justify-center text-xs font-semibold tracking-[0.2em]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-xs font-semibold tracking-[0.2em] text-white shadow-sm">
                   VED
                 </div>
                 <div>

@@ -32,6 +32,12 @@
 - [x] Client-side search/filter (name/locality/constituency)
 - [x] Sources + last-updated UI on detail pages
 
+### Phase 3.1 — Phase 3 Polish (Order)
+- [x] Search UX improvements (debounce, clear button, highlight matches, sort)
+- [x] Filters (locality/constituency dropdowns)
+- [x] Detail layout tweaks (attribute labels, bilingual headers, source grouping)
+- [x] Visual refinements (cards, spacing, typography)
+
 ### Phase 4 — Multi-cycle Support
 - [ ] Elections index page listing cycles
 - [ ] Per-cycle routing + navigation

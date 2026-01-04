@@ -61,11 +61,11 @@ export default async function ElectionOverviewPage({
 
   return (
     <div className="grid gap-8">
-      <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-8 shadow-sm">
+      <section className="rounded-3xl border border-zinc-200/80 bg-white/90 p-8 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.25)]">
         <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">
           {timeline.cycle.year}
         </p>
-        <h1 className="mt-4 text-3xl font-semibold text-zinc-900">
+        <h1 className="mt-3 text-3xl font-semibold text-zinc-900">
           {timeline.cycle.name}
         </h1>
         <p className="mt-3 max-w-2xl text-sm text-zinc-600">
@@ -75,19 +75,19 @@ export default async function ElectionOverviewPage({
           Thu muc ung cu vien va tai lieu don vi bau cu cho ky bau cu nay.
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-zinc-200/80 bg-white p-4">
+          <div className="rounded-2xl border border-zinc-200/80 bg-white p-4">
             <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Candidates</p>
             <p className="mt-2 text-2xl font-semibold text-zinc-900">
               {candidates.records.length.toLocaleString()}
             </p>
           </div>
-          <div className="rounded-xl border border-zinc-200/80 bg-white p-4">
+          <div className="rounded-2xl border border-zinc-200/80 bg-white p-4">
             <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Generated</p>
             <p className="mt-2 text-sm font-semibold text-zinc-900">
               {new Date(candidates.generated_at).toLocaleDateString("en-US")}
             </p>
           </div>
-          <div className="rounded-xl border border-zinc-200/80 bg-white p-4">
+          <div className="rounded-2xl border border-zinc-200/80 bg-white p-4">
             <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Cycle ID</p>
             <p className="mt-2 text-sm font-semibold text-zinc-900">{timeline.cycle.id}</p>
           </div>
@@ -99,7 +99,7 @@ export default async function ElectionOverviewPage({
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <Link
             href={`/elections/${cycle}/candidates`}
-            className="rounded-xl border border-zinc-200/80 bg-white p-5 transition hover:border-zinc-300 hover:shadow-sm"
+            className="rounded-2xl border border-zinc-200/80 bg-white p-5 transition hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md"
           >
             <p className="text-sm font-semibold text-zinc-900">Candidate directory</p>
             <p className="mt-2 text-xs text-zinc-500">Search and filter official entries.</p>
