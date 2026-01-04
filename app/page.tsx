@@ -1,65 +1,64 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="grid gap-12">
+      <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-8 shadow-sm">
+        <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">Coming soon</p>
+        <h1 className="mt-4 text-3xl font-semibold leading-tight text-zinc-900">
+          Vietnam Elections Data
+        </h1>
+        <p className="mt-3 max-w-2xl text-base leading-7 text-zinc-600">
+          A static, source-linked directory of official candidate information for Vietnam
+          elections. Built for transparency and historical reference.
+        </p>
+        <p className="mt-4 max-w-2xl text-sm leading-6 text-zinc-500">
+          Dữ liệu bầu cử Việt Nam: thư mục tĩnh, có nguồn trích dẫn, tổng hợp thông
+          tin ứng cử viên từ tài liệu chính thức.
+        </p>
+      </section>
+
+      <section className="grid gap-6 md:grid-cols-2">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-zinc-900">Scope</h2>
+          <p className="mt-2 text-sm text-zinc-600">
+            This site documents official candidate lists by election cycle, locality,
+            and constituency. No endorsements, rankings, or user comments.
           </p>
+          <p className="mt-3 text-sm text-zinc-500">
+            Phạm vi: danh sách ứng cử viên theo kỳ bầu cử, địa phương và đơn vị bầu cử.
+            Không có nhận xét, xếp hạng, hay bình luận.
+          </p>
+          <ul className="mt-4 space-y-2 text-sm text-zinc-600">
+            <li>Static build, no backend.</li>
+            <li>Every field tied to a source.</li>
+            <li>Public change logs for updates.</li>
+          </ul>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-zinc-900">Data sources</h2>
+          <p className="mt-2 text-sm text-zinc-600">
+            Initial focus: 15th National Assembly (2021) candidate list and
+            congressional unit documents.
+          </p>
+          <p className="mt-3 text-sm text-zinc-500">
+            Nguồn dữ liệu ban đầu: danh sách ứng cử viên Quốc hội khóa XV (2021)
+            và tài liệu đơn vị bầu cử.
+          </p>
+          <div className="mt-4 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-4 text-xs text-zinc-500">
+            Links will be published alongside the directory pages.
+          </div>
         </div>
-      </main>
+      </section>
+
+      <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
+        <h2 className="text-lg font-semibold text-zinc-900">Status</h2>
+        <p className="mt-2 text-sm text-zinc-600">
+          The data pipeline is in place. The public directory UI is under construction.
+        </p>
+        <p className="mt-3 text-sm text-zinc-500">
+          Hệ thống dữ liệu đã sẵn sàng. Giao diện công bố đang được hoàn thiện.
+        </p>
+      </section>
     </div>
   );
 }
