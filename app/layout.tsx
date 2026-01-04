@@ -39,7 +39,7 @@ export default function RootLayout({
             <div className="absolute -right-24 top-[-120px] h-72 w-[70%] rotate-[-4deg] bg-[color:var(--flag-yellow)] opacity-25 blur-3xl" />
             <div className="absolute -left-24 bottom-[-140px] h-72 w-[70%] rotate-[5deg] bg-[color:var(--flag-red)] opacity-20 blur-3xl" />
           </div>
-          <header className="border-b-4 border-[var(--flag-red)] bg-[var(--surface)]/90 backdrop-blur">
+          <header className="relative z-50 border-b-4 border-[var(--flag-red)] bg-[var(--surface)]/90 backdrop-blur">
             <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-5">
               <Link className="flex items-center gap-3" href="/">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--flag-red)] text-xs font-semibold tracking-[0.2em] text-white shadow-sm ring-2 ring-[var(--flag-yellow)]">

@@ -20,7 +20,7 @@ export default function MobileNav() {
       {open && (
         <div
           id="mobile-nav"
-          className="absolute left-0 right-0 top-[76px] z-40 border-b-4 border-[var(--flag-red)] bg-[var(--surface)]/95 px-6 py-4 shadow-lg backdrop-blur"
+          className="absolute left-0 right-0 top-[76px] z-50 border-b-4 border-[var(--flag-red)] bg-[var(--surface)]/95 px-6 py-4 shadow-lg backdrop-blur"
         >
           <nav className="grid gap-3 text-sm font-medium text-[var(--ink-muted)]">
             <Link className="hover:text-[var(--ink)]" href="/" onClick={() => setOpen(false)}>
