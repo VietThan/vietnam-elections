@@ -8,12 +8,12 @@
 4. The numbered docx files in [candidates-list/](./candidates-list/) were taken from [https://baochinhphu.vn](https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm) (fetched: 2026-01-02):
 
 ## Data Pipeline
-- Build the staging database: `python3 data/na15-2021/build-staging-db.py` (creates `data/na15-2021/staging.db`)
+- Build the staging database: `python3 data/na15-2021/build-staging-db.py` (creates `data/staging.db`)
 - Run QA checks: `python3 data/na15-2021/qa-checks.py`
 - Export JSON for the site: `python3 data/na15-2021/export-json.py` (writes to `public/data/elections/na15-2021/`)
 
 ## Outputs
-- SQLite staging DB: `data/na15-2021/staging.db`
+- SQLite staging DB: `data/staging.db`
 - JSON exports for static site:
   - `public/data/elections/na15-2021/candidates_index.json`
   - `public/data/elections/na15-2021/candidates_detail/*.json`

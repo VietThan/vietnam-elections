@@ -13,13 +13,13 @@
 - [x] 2021 NA15 data inventory present in `data/na15-2021/`
 - [x] Constituency list parsed to CSV (`congressional-units-parsed.csv`)
 - [x] Candidate list extracted to CSVs (`data/na15-2021/candidates-list/*.csv`)
-- [x] SQLite staging database exists (`data/na15-2021/staging.db`)
+- [x] SQLite staging database exists (`data/staging.db`)
 - [x] Verify staging schema aligns with plan tables (cycle/locality/constituency/person/entry/source/document)
 - [x] Document provenance for each dataset in `data/na15-2021/README.md` (source URL + fetched date)
 
 ### Phase 2 — Data Pipeline + JSON Exports (Build-time)
 - [x] Define canonical JSON shapes (candidates index/detail, localities, constituencies, documents, timeline, changelog)
-- [x] Implement export script from `data/na15-2021/staging.db` to `public/data/`
+- [x] Implement export script from `data/staging.db` to `public/data/`
 - [x] Add folded fields for search (accent-insensitive)
 - [x] JSON exports generated in `public/data/elections/na15-2021/`
 - [x] Add QA checks for staging (missing sources, broken FKs, duplicates, missing key fields)

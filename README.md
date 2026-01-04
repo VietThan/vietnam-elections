@@ -21,12 +21,12 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Data Pipeline
-- Staging DB and exports live under `data/na15-2021/`.
+- Staging DB lives under `data/staging.db`; raw inputs live in `data/na15-2021/`.
 - Build staging DB: `python3 data/na15-2021/build-staging-db.py`
 - Export JSON for the site: `python3 data/na15-2021/export-json.py`
 
 ## TODO
-- Add `npm run data:build` to generate JSON exports for multiple election cycles (needs orchestration when source data changes).
+- Add multi-cycle orchestration for `npm run data:build` when more datasets arrive.
 
 ## Learn More
 

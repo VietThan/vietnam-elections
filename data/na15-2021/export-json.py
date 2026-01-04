@@ -9,7 +9,7 @@ import unicodedata
 
 DATA_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(DATA_DIR))
-DB_PATH = os.path.join(DATA_DIR, "staging.db")
+DB_PATH = os.path.join(os.path.dirname(DATA_DIR), "staging.db")
 OUTPUT_ROOT = os.path.join(ROOT, "public", "data")
 
 

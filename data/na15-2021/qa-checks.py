@@ -5,7 +5,7 @@ import sys
 
 
 DATA_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(DATA_DIR, "staging.db")
+DB_PATH = os.path.join(os.path.dirname(DATA_DIR), "staging.db")
 
 
 def fetch_all(conn: sqlite3.Connection, query: str, params: tuple = ()) -> list[sqlite3.Row]:

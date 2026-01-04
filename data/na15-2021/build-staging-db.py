@@ -10,7 +10,7 @@ import unicodedata
 
 DATA_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(DATA_DIR)
-DB_PATH = os.path.join(DATA_DIR, "staging.db")
+DB_PATH = os.path.join(ROOT, "staging.db")
 
 ELECTION_CYCLE_ID = "na15-2021"
 ELECTION_CYCLE_NAME = "15th National Assembly"
