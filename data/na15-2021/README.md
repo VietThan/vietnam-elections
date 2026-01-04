@@ -8,12 +8,12 @@
 4. The numbered docx files in [candidates-list/](./candidates-list/) were taken from [https://baochinhphu.vn](https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm) (fetched: 2026-01-02):
 
 ## Data Pipeline
-- Build the staging database: `python3 data/na-15-2021/build-staging-db.py` (creates `data/na-15-2021/staging.db`)
-- Run QA checks: `python3 data/na-15-2021/qa-checks.py`
-- Export JSON for the site: `python3 data/na-15-2021/export-json.py` (writes to `public/data/elections/na15-2021/`)
+- Build the staging database: `python3 data/na15-2021/build-staging-db.py` (creates `data/na15-2021/staging.db`)
+- Run QA checks: `python3 data/na15-2021/qa-checks.py`
+- Export JSON for the site: `python3 data/na15-2021/export-json.py` (writes to `public/data/elections/na15-2021/`)
 
 ## Outputs
-- SQLite staging DB: `data/na-15-2021/staging.db`
+- SQLite staging DB: `data/na15-2021/staging.db`
 - JSON exports for static site:
   - `public/data/elections/na15-2021/candidates_index.json`
   - `public/data/elections/na15-2021/candidates_detail/*.json`
@@ -24,7 +24,7 @@
   - `public/data/elections/na15-2021/changelog.json`
 
 ## Candidate CSV Notes
-- Files: `data/na-15-2021/candidates-list/*.csv` (extracted from official DOCX/PDF sources).
+- Files: `data/na15-2021/candidates-list/*.csv` (extracted from official DOCX/PDF sources).
 - Key columns used in staging: `province_or_city`, `unit_number`, `STT`, `Họ và tên`, `Ngày tháng năm sinh`, `Giới tính`, `Quốc tịch`, `Dân tộc`, `Tôn giáo`, `Quê quán`, `Nơi ở hiện nay`, `Nghề nghiệp, chức vụ`, `Nơi công tác`, and education-related fields.
 - Party membership + delegate flags: `Ngày vào Đảng`, `Là đại biểu QH`, `Là đại biểu HĐND`.
 

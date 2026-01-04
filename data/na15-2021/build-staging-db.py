@@ -20,8 +20,8 @@ DOCUMENT_FETCHED_DATE = "2026-01-02"
 DOC_URL_CANDIDATE_LIST = "https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf"
 DOC_URL_CONGRESSIONAL_UNITS = "https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf"
 DOC_URL_DOCX_LIST = "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm"
-DOC_PATH_CANDIDATE_PDF = "data/na-15-2021/candidates-list/candidates-list-vietnamese.pdf"
-DOC_PATH_CONGRESSIONAL_UNITS = "data/na-15-2021/congressional-units.pdf"
+DOC_PATH_CANDIDATE_PDF = "data/na15-2021/candidates-list/candidates-list-vietnamese.pdf"
+DOC_PATH_CONGRESSIONAL_UNITS = "data/na15-2021/congressional-units.pdf"
 
 
 def fold_text(value: str) -> str:
@@ -229,7 +229,7 @@ def load_documents(conn: sqlite3.Connection) -> None:
             {
                 "title": f"Candidate list ({filename})",
                 "url": DOC_URL_DOCX_LIST,
-                "file_path": f"data/na-15-2021/candidates-list/{filename}",
+                "file_path": f"data/na15-2021/candidates-list/{filename}",
                 "doc_type": "docx",
                 "fetched_date": DOCUMENT_FETCHED_DATE,
             }
