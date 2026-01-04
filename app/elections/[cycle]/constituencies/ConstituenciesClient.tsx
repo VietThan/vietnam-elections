@@ -143,6 +143,20 @@ export default function ConstituenciesClient({ cycle }: { cycle?: string }) {
     });
   }, [payload, query, selectedLocality]);
 
+  const sorted = useMemo(() => {
+    const localityName = (localityId: string) =>
+      localities?.records.find((loc) => loc.id === localityId)?.name_vi ?? localityId;
+    return filtered.slice().sort((a, b) => {
+      const localityCompare = localityName(a.locality_id).localeCompare(
+        localityName(b.locality_id)
+      );
+      if (localityCompare !== 0) {
+        return localityCompare;
+      }
+      return (a.unit_number ?? 0) - (b.unit_number ?? 0);
+    });
+  }, [filtered, localities]);
+
   return (
     <div className="grid gap-6">
       <section className="rounded-3xl border border-zinc-200/80 bg-white/90 p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.25)]">
@@ -208,16 +222,23 @@ export default function ConstituenciesClient({ cycle }: { cycle?: string }) {
         )}
         {payload && (
           <div className="grid gap-3">
-            {filtered.map((record) => (
+            {sorted.map((record) => (
               <div
                 key={record.id}
                 className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
-                    <p className="text-sm font-semibold text-zinc-900">
-                      {record.name_vi}
-                    </p>
+                    {(() => {
+                      const localityName =
+                        localities?.records.find((loc) => loc.id === record.locality_id)
+                          ?.name_vi ?? record.locality_id;
+                      return (
+                        <p className="text-sm font-semibold text-zinc-900">
+                          {localityName} · {record.name_vi}
+                        </p>
+                      );
+                    })()}
                     <p className="mt-1 text-xs text-zinc-500">
                       Locality:{" "}
                       {localities?.records.find((loc) => loc.id === record.locality_id)
@@ -243,7 +264,7 @@ export default function ConstituenciesClient({ cycle }: { cycle?: string }) {
                 )}
               </div>
             ))}
-            {filtered.length === 0 && (
+            {sorted.length === 0 && (
               <p className="text-sm text-zinc-500">No matches found.</p>
             )}
           </div>

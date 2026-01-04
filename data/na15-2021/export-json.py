@@ -128,6 +128,14 @@ def export_cycle(conn: sqlite3.Connection) -> None:
         )
 
     locality_map = {loc["id"]: loc for loc in localities}
+
+    constituencies.sort(
+        key=lambda record: (
+            locality_map.get(record["locality_id"], {}).get("name_vi", ""),
+            record["unit_number"] or 0,
+        )
+    )
+
     constituency_map = {c["id"]: c for c in constituencies}
 
     index_records = []
