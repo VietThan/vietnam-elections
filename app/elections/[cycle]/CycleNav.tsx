@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 const cycles = [
-  { id: "na15-2021", name: "NA15 (2021)" },
   { id: "na16-2026", name: "NA16 (2026)" },
+  { id: "na15-2021", name: "NA15 (2021)" },
 ];
 
 export default function CycleNav({ cycle }: { cycle: string }) {

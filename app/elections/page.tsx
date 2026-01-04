@@ -2,15 +2,15 @@ import Link from "next/link";
 
 const cycles = [
   {
+    id: "na16-2026",
+    name: "16th National Assembly (2026)",
+    description: "Coming soon. Dataset and sources are not yet available.",
+  },
+  {
     id: "na15-2021",
     name: "15th National Assembly (2021)",
     description:
       "Official candidate lists and constituencies for the 2021 National Assembly election.",
-  },
-  {
-    id: "na16-2026",
-    name: "16th National Assembly (2026)",
-    description: "Coming soon. Dataset and sources are not yet available.",
   },
 ];
 
