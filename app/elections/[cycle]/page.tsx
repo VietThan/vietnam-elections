@@ -143,8 +143,23 @@ export default async function ElectionOverviewPage({
               Candidate directory will appear when data is published.
             </div>
           )}
+          {candidates ? (
+            <Link
+              href={`/elections/${cycle}/constituencies`}
+              className="rounded-2xl border border-zinc-200/80 bg-white p-5 transition hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md"
+            >
+              <p className="text-sm font-semibold text-zinc-900">Constituencies</p>
+              <p className="mt-2 text-xs text-zinc-500">
+                View units, seats, and district coverage.
+              </p>
+            </Link>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 p-5 text-xs text-zinc-500">
+              Constituencies will appear when data is published.
+            </div>
+          )}
           <div className="rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-5 text-xs text-zinc-500">
-            Constituencies, documents, and timeline pages will appear here.
+            Documents and timeline pages will appear here.
           </div>
         </div>
       </section>

@@ -55,6 +55,13 @@
 - [ ] Define stable `person_id` strategy
 - [ ] Add `people_index.json` + person detail pages
 
+### Phase 7 — Constituencies Directory
+- [x] Create per-cycle constituencies page (`/elections/{cycle}/constituencies`)
+- [x] Load data from `public/data/elections/{cycle}/constituencies.json`
+- [x] Show locality + unit number + seat count + district list
+- [x] Add client-side search/filter by locality/district
+- [x] Add links from cycle overview to constituencies page
+
 ## Notes / Open Questions
 
 - JSON exports chosen (static hosting + client search).
