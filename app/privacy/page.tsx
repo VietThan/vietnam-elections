@@ -8,13 +8,13 @@ export default function PrivacyPage() {
           This site does not collect personal accounts or accept public submissions.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-zinc-500">
-          Trang nay khong thu thap tai khoan ca nhan hoac nhan noi dung tu cong chung.
+          Trang này không thu thập tài khoản cá nhân hoặc nhận nội dung từ công chúng.
         </p>
       </section>
 
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">Data collection</h2>
-        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">Du lieu</p>
+        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">Dữ liệu</p>
         <ul className="mt-4 grid gap-3 text-sm text-zinc-600">
           <li>No user accounts or profiles are created.</li>
           <li>No comments or public submissions are collected.</li>

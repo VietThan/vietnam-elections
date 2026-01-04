@@ -25,7 +25,7 @@ export default function ElectionsPage() {
           added over time.
         </p>
         <p className="max-w-2xl text-sm text-zinc-500">
-          Danh sach ky bau cu theo tung giai doan. Se bo sung them khi co du lieu.
+          Danh sách kỳ bầu cử theo từng giai đoạn. Sẽ bổ sung thêm khi có dữ liệu.
         </p>
       </div>
 

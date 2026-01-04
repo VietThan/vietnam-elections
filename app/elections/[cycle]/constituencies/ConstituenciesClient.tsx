@@ -154,7 +154,7 @@ export default function ConstituenciesClient({ cycle }: { cycle?: string }) {
           Browse constituencies and their district coverage for each locality.
         </p>
         <p className="mt-2 text-sm text-zinc-500">
-          Danh sach don vi bau cu va cac quan/huyen thuoc pham vi.
+          Danh sách đơn vị bầu cử và các quận/huyện thuộc phạm vi.
         </p>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row">
           <div className="flex flex-1 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2">

@@ -9,14 +9,14 @@ export default function MethodologyPage() {
           not a news product and does not add commentary or rankings.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-zinc-500">
-          Du lieu duoc tong hop tu tai lieu chinh thuc, khong binh luan hay xep hang.
+          Dữ liệu được tổng hợp từ tài liệu chính thức, không bình luận hay xếp hạng.
         </p>
       </section>
 
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">Pipeline</h2>
         <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
-          Quy trinh du lieu
+          Quy trình dữ liệu
         </p>
         <ol className="mt-4 grid gap-3 text-sm text-zinc-600">
           <li>1) Collect official PDFs/DOCX files and store raw copies.</li>
@@ -29,7 +29,7 @@ export default function MethodologyPage() {
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">Integrity checks</h2>
         <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
-          Kiem tra chat luong
+          Kiểm tra chất lượng
         </p>
         <ul className="mt-4 grid gap-3 text-sm text-zinc-600">
           <li>Foreign key checks on the staging database.</li>
@@ -42,7 +42,7 @@ export default function MethodologyPage() {
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">Field notes</h2>
         <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
-          Ghi chu truong du lieu
+          Ghi chú trường dữ liệu
         </p>
         <ul className="mt-4 grid gap-3 text-sm text-zinc-600">
           <li>General education uses the Vietnamese grade system (12/12 = completed high school; 10/10 = older system).</li>

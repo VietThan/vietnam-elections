@@ -226,7 +226,7 @@ export default function CandidatesListClient({ cycle }: { cycle?: string }) {
           Search candidates by name, locality, or constituency.
         </p>
         <p className="mt-2 text-sm text-zinc-500">
-          Tim theo ho ten, dia phuong, hoac don vi bau cu.
+          Tìm theo họ tên, địa phương, hoặc đơn vị bầu cử.
         </p>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row">
           <div className="flex flex-1 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2">

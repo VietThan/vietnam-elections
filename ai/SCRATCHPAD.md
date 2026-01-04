@@ -67,6 +67,14 @@
 - [x] 8.2 Update home page layout + copy to funnel to core tasks
 - [x] 8.3 Add quick links to Elections, Candidates, Constituencies, Sources/Methodology
 
+### Phase 9 — Vietnamese Copy Pass
+- [x] 9.1 Inventory all Vietnamese strings across UI
+- [x] 9.2 Replace missing-diacritic text with proper Vietnamese
+- [x] 9.3 Spot-check for consistency and tone
+
+Notes:
+- Focus on UI annotations and helper text; keep meaning identical.
+
 Phase 8.1 CTA order:
 1) Search candidates (2021)
 2) Browse constituencies (2021)

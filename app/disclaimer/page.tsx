@@ -9,7 +9,7 @@ export default function DisclaimerPage() {
           does not provide endorsements, rankings, or commentary.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-zinc-500">
-          Du lieu mang tinh thong tin, khong co nhan xet hay xep hang.
+          Dữ liệu mang tính thông tin, không có nhận xét hay xếp hạng.
         </p>
       </section>
 

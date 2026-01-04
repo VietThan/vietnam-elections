@@ -83,7 +83,7 @@ export default async function ElectionOverviewPage({
               Official candidate directory and constituency references for this election cycle.
             </p>
             <p className="mt-3 max-w-2xl text-sm text-zinc-500">
-              Thu muc ung cu vien va tai lieu don vi bau cu cho ky bau cu nay.
+              Thư mục ứng cử viên và tài liệu đơn vị bầu cử cho kỳ bầu cử này.
             </p>
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               <div className="rounded-2xl border border-zinc-200/80 bg-white p-4">
@@ -119,7 +119,7 @@ export default async function ElectionOverviewPage({
               publish the directory when sources are added.
             </p>
             <p className="mt-3 max-w-2xl text-sm text-zinc-500">
-              Du lieu chua san sang. Trang nay se cap nhat khi co tai lieu.
+              Dữ liệu chưa sẵn sàng. Trang này sẽ cập nhật khi có tài liệu.
             </p>
           </>
         )}

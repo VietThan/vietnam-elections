@@ -58,7 +58,7 @@ export default async function SourcesPage() {
           baseline documents used for the 2021 cycle.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-zinc-500">
-          Tat ca thong tin deu co nguon. Danh sach ben duoi la tai lieu co ban.
+          Tất cả thông tin đều có nguồn. Danh sách bên dưới là tài liệu cơ bản.
         </p>
       </section>
 

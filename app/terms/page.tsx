@@ -9,13 +9,13 @@ export default function TermsPage() {
           original sources.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-zinc-500">
-          Su dung nhu mot thu muc tham khao. Vui long kiem tra lai voi nguon goc.
+          Sử dụng như một thư mục tham khảo. Vui lòng đối chiếu với nguồn gốc.
         </p>
       </section>
 
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">Usage</h2>
-        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">Dieu khoan</p>
+        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">Điều khoản</p>
         <ul className="mt-4 grid gap-3 text-sm text-zinc-600">
           <li>No endorsements or political advocacy are provided here.</li>
           <li>All data is provided as-is from cited sources.</li>

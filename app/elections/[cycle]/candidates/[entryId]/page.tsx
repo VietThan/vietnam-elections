@@ -221,7 +221,7 @@ export default async function CandidateDetailPage({
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">Profile</h2>
         <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
-          Ho so ung cu vien
+          Hồ sơ ứng cử viên
         </p>
         <div className="mt-4 grid gap-3 text-sm text-zinc-600 sm:grid-cols-2">
           <div>
@@ -255,7 +255,7 @@ export default async function CandidateDetailPage({
         <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-zinc-900">Attributes</h2>
           <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
-            Thong tin bo sung
+            Thông tin bổ sung
           </p>
           <p className="mt-3 text-xs text-zinc-500">
             Note: General education uses the Vietnamese grade system (12/12 = completed
@@ -280,7 +280,7 @@ export default async function CandidateDetailPage({
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">Sources</h2>
         <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
-          Nguon tai lieu
+          Nguồn tài liệu
         </p>
         <p className="mt-2 text-sm text-zinc-600">
           Each field is tied to an official document. Links below reference the source
