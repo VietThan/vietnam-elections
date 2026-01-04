@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div className="grid gap-10">
@@ -16,7 +18,7 @@ export default function Home() {
         </p>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <a
+          <Link
             href="/elections/na15-2021/candidates"
             className="rounded-2xl border border-zinc-200/80 bg-white px-5 py-4 text-sm font-semibold text-zinc-900 transition hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md"
           >
@@ -24,8 +26,8 @@ export default function Home() {
             <span className="mt-2 block text-xs font-normal text-zinc-500">
               Find official entries by name or locality.
             </span>
-          </a>
-          <a
+          </Link>
+          <Link
             href="/elections/na15-2021/constituencies"
             className="rounded-2xl border border-zinc-200/80 bg-white px-5 py-4 text-sm font-semibold text-zinc-900 transition hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md"
           >
@@ -33,8 +35,8 @@ export default function Home() {
             <span className="mt-2 block text-xs font-normal text-zinc-500">
               See districts and seat counts.
             </span>
-          </a>
-          <a
+          </Link>
+          <Link
             href="/sources"
             className="rounded-2xl border border-zinc-200/80 bg-white px-5 py-4 text-sm font-semibold text-zinc-900 transition hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md"
           >
@@ -42,8 +44,8 @@ export default function Home() {
             <span className="mt-2 block text-xs font-normal text-zinc-500">
               How the data is collected.
             </span>
-          </a>
-          <a
+          </Link>
+          <Link
             href="/elections/na16-2026"
             className="rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 px-5 py-4 text-sm font-semibold text-zinc-600"
           >
@@ -51,7 +53,7 @@ export default function Home() {
             <span className="mt-2 block text-xs font-normal text-zinc-500">
               Dataset not yet published.
             </span>
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -88,21 +90,21 @@ export default function Home() {
           Jump directly to key sections of the directory.
         </p>
         <div className="mt-4 grid gap-3 text-sm text-zinc-600 sm:grid-cols-2 lg:grid-cols-3">
-          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/elections">
+          <Link className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/elections">
             Elections index
-          </a>
-          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/elections/na15-2021/candidates">
+          </Link>
+          <Link className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/elections/na15-2021/candidates">
             Candidates (2021)
-          </a>
-          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/elections/na15-2021/constituencies">
+          </Link>
+          <Link className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/elections/na15-2021/constituencies">
             Constituencies (2021)
-          </a>
-          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/sources">
+          </Link>
+          <Link className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/sources">
             Sources
-          </a>
-          <a className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/methodology">
+          </Link>
+          <Link className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 hover:border-zinc-300" href="/methodology">
             Methodology
-          </a>
+          </Link>
         </div>
       </section>
     </div>
