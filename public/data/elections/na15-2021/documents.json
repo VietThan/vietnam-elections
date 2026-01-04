@@ -1,5 +1,116 @@
 {
   "cycle_id": "na15-2021",
-  "generated_at": "2026-01-04T01:36:37Z",
-  "records": []
+  "generated_at": "2026-01-04T01:40:42Z",
+  "records": [
+    {
+      "id": "doc-d95dfdf30653",
+      "title": "Candidate list (1.1-26.docx)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": "data/na15-2021/candidates-list/1.1-26.docx",
+      "doc_type": "docx",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-2cee3c58e323",
+      "title": "Candidate list (2.27-54.docx)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": "data/na15-2021/candidates-list/2.27-54.docx",
+      "doc_type": "docx",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-d394604fbba0",
+      "title": "Candidate list (3.55-104.docx)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": "data/na15-2021/candidates-list/3.55-104.docx",
+      "doc_type": "docx",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-9fc5d9371cec",
+      "title": "Candidate list (4.105-136.docx)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": "data/na15-2021/candidates-list/4.105-136.docx",
+      "doc_type": "docx",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-7ad1da38132f",
+      "title": "Candidate list (5.137-172.docx)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": "data/na15-2021/candidates-list/5.137-172.docx",
+      "doc_type": "docx",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-7d52d1cbc019",
+      "title": "Candidate list (6.173-242.docx)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": "data/na15-2021/candidates-list/6.173-242.docx",
+      "doc_type": "docx",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-5accb5d5dcf7",
+      "title": "Candidate list (7.243-298.docx)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": "data/na15-2021/candidates-list/7.243-298.docx",
+      "doc_type": "docx",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-f4dc50a9069a",
+      "title": "Candidate list (8.299-344.docx)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": "data/na15-2021/candidates-list/8.299-344.docx",
+      "doc_type": "docx",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-a686d97ebb20",
+      "title": "Candidate list (9.345-446.docx)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": "data/na15-2021/candidates-list/9.345-446.docx",
+      "doc_type": "docx",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-d206c777cd70",
+      "title": "Candidate list (PDF)",
+      "url": "https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf",
+      "file_path": "data/na15-2021/candidates-list/candidates-list-vietnamese.pdf",
+      "doc_type": "pdf",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    },
+    {
+      "id": "doc-550cd8ad955d",
+      "title": "Congressional units (PDF)",
+      "url": "https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf",
+      "file_path": "data/na15-2021/congressional-units.pdf",
+      "doc_type": "pdf",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null
+    }
+  ]
 }

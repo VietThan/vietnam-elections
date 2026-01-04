@@ -296,7 +296,29 @@ def export_cycle(conn: sqlite3.Connection) -> None:
 
     write_json(
         os.path.join(base_dir, "documents.json"),
-        {"cycle_id": cycle_id, "generated_at": generated_at, "records": []},
+        {
+            "cycle_id": cycle_id,
+            "generated_at": generated_at,
+            "records": [
+                {
+                    "id": row["id"],
+                    "title": row["title"],
+                    "url": row["url"],
+                    "file_path": row["file_path"],
+                    "doc_type": row["doc_type"],
+                    "published_date": row["published_date"],
+                    "fetched_date": row["fetched_date"],
+                    "notes": row["notes"],
+                }
+                for row in conn.execute(
+                    """
+                    SELECT id, title, url, file_path, doc_type, published_date, fetched_date, notes
+                    FROM document
+                    ORDER BY title
+                    """
+                ).fetchall()
+            ],
+        },
     )
 
     write_json(

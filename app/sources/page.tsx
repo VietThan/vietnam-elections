@@ -1,4 +1,53 @@
-export default function SourcesPage() {
+import fs from "node:fs/promises";
+import path from "node:path";
+
+type DocumentsPayload = {
+  cycle_id: string;
+  generated_at: string;
+  records: Array<{
+    id: string;
+    title: string;
+    url: string | null;
+    file_path: string | null;
+    doc_type: string | null;
+    published_date: string | null;
+    fetched_date: string | null;
+    notes: string | null;
+  }>;
+};
+
+async function readDocuments(): Promise<DocumentsPayload | null> {
+  const filePath = path.join(
+    process.cwd(),
+    "public",
+    "data",
+    "elections",
+    "na15-2021",
+    "documents.json"
+  );
+  try {
+    const raw = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(raw) as DocumentsPayload;
+  } catch {
+    return null;
+  }
+}
+
+function formatDate(value: string | null): string {
+  if (!value) {
+    return "Unknown";
+  }
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+  return parsed.toLocaleDateString("en-US");
+}
+
+export default async function SourcesPage() {
+  const documents = await readDocuments();
+  const records = documents?.records ?? [];
+
   return (
     <div className="grid gap-6">
       <section className="rounded-3xl border border-zinc-200/80 bg-white/90 p-8 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.25)]">
@@ -16,42 +65,25 @@ export default function SourcesPage() {
       <section className="rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-zinc-900">National Assembly 15 (2021)</h2>
         <div className="mt-4 grid gap-3 text-sm text-zinc-600">
-          <div className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3">
-            <p className="font-semibold text-zinc-900">Candidate list (PDF)</p>
-            <p className="mt-1 text-xs text-zinc-500">
-              Fetched: 2026-01-02
-            </p>
-            <a
-              className="mt-2 inline-flex text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-600"
-              href="https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf"
-            >
-              Open source
-            </a>
-          </div>
-          <div className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3">
-            <p className="font-semibold text-zinc-900">Congressional units (PDF)</p>
-            <p className="mt-1 text-xs text-zinc-500">
-              Fetched: 2026-01-02
-            </p>
-            <a
-              className="mt-2 inline-flex text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-600"
-              href="https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf"
-            >
-              Open source
-            </a>
-          </div>
-          <div className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3">
-            <p className="font-semibold text-zinc-900">Candidate list (DOCX set)</p>
-            <p className="mt-1 text-xs text-zinc-500">
-              Fetched: 2026-01-02
-            </p>
-            <a
-              className="mt-2 inline-flex text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-600"
-              href="https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm"
-            >
-              Open source
-            </a>
-          </div>
+          {records.map((doc) => (
+            <div key={doc.id} className="rounded-2xl border border-zinc-200/80 bg-white px-4 py-3">
+              <p className="font-semibold text-zinc-900">{doc.title}</p>
+              <p className="mt-1 text-xs text-zinc-500">
+                Fetched: {formatDate(doc.fetched_date)}
+              </p>
+              {doc.url && (
+                <a
+                  className="mt-2 inline-flex text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-zinc-600"
+                  href={doc.url}
+                >
+                  Open source
+                </a>
+              )}
+            </div>
+          ))}
+          {records.length === 0 && (
+            <p className="text-sm text-zinc-500">No documents published yet.</p>
+          )}
         </div>
       </section>
     </div>
