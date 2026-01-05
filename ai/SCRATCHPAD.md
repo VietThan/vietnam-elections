@@ -63,9 +63,9 @@ I was thinking that constituencies also need a page, at the very least so that c
 - [x] Ensure layout matches existing theme.
 
 ### M5: Polish (copy, empty states, accessibility, table styling)
-- [ ] Empty state for missing constituency/candidates.
-- [ ] Table header styling + zebra rows + responsive scroll.
-- [ ] Accessibility checks (labels, table semantics).
+- [x] Empty state for missing constituency/candidates.
+- [x] Table header styling + zebra rows + responsive scroll.
+- [x] Accessibility checks (labels, table semantics).
 
 ## Approval checkpoints
 - Need approval before moving from M1 → M2 and M2 → M3.

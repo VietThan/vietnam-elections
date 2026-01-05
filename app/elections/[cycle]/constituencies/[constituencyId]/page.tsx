@@ -132,6 +132,22 @@ const ATTRIBUTE_COLUMNS = [
   { key: "workplace", label: "Workplace" },
 ] as const;
 
+function formatText(value: string | null | undefined): string {
+  if (!value) {
+    return "—";
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : "—";
+}
+
+function formatCommaList(value: string): string {
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .join(", ");
+}
+
 async function readJson<T>(filePath: string): Promise<T> {
   const raw = await fs.readFile(filePath, "utf-8");
   return JSON.parse(raw) as T;
@@ -202,6 +218,12 @@ export default async function ConstituencyDetailPage({
   const localityName =
     localitiesPayload.records.find((record) => record.id === constituency.locality_id)
       ?.name_vi ?? constituency.locality_id;
+  const descriptionText = constituency.description
+    ? formatCommaList(constituency.description)
+    : null;
+  const unitContextText = constituency.unit_context_raw
+    ? formatCommaList(constituency.unit_context_raw)
+    : null;
 
   return (
     <div className="grid gap-6 stagger">
@@ -224,8 +246,15 @@ export default async function ConstituencyDetailPage({
           {localityName} · Seats: {constituency.seat_count ?? "—"} · Unit{" "}
           {constituency.unit_number ?? "—"}
         </p>
-        {constituency.description && (
-          <p className="mt-2 text-sm text-[var(--ink-muted)]">{constituency.description}</p>
+        {descriptionText && (
+          <p className="mt-2 text-sm text-[var(--ink-muted)]">
+            Coverage: {descriptionText}
+          </p>
+        )}
+        {!descriptionText && unitContextText && (
+          <p className="mt-2 text-sm text-[var(--ink-muted)]">
+            Coverage: {unitContextText}
+          </p>
         )}
         {constituency.districts.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-2">
@@ -255,21 +284,36 @@ export default async function ConstituencyDetailPage({
           </p>
         ) : (
           <div className="mt-4 overflow-x-auto">
-            <table className="min-w-[1200px] border-collapse text-left text-sm text-[var(--ink-muted)]">
+            <table className="min-w-[1200px] border-collapse text-left text-sm text-[var(--ink-muted)] tabular-nums">
+              <caption className="sr-only">
+                Candidate comparison table for {constituency.name_vi}
+              </caption>
               <thead className="bg-[var(--surface-muted)] text-xs uppercase tracking-[0.2em] text-[var(--flag-red-deep)]">
                 <tr>
                   {ENTRY_COLUMNS.map((column) => (
-                    <th key={column.key} className="sticky top-0 border-b border-[var(--border)] px-3 py-2">
+                    <th
+                      key={column.key}
+                      scope="col"
+                      className="sticky top-0 border-b border-[var(--border)] bg-[var(--surface-muted)] px-3 py-2"
+                    >
                       {column.label}
                     </th>
                   ))}
                   {PROFILE_COLUMNS.map((column) => (
-                    <th key={column.key} className="sticky top-0 border-b border-[var(--border)] px-3 py-2">
+                    <th
+                      key={column.key}
+                      scope="col"
+                      className="sticky top-0 border-b border-[var(--border)] bg-[var(--surface-muted)] px-3 py-2"
+                    >
                       {column.label}
                     </th>
                   ))}
                   {ATTRIBUTE_COLUMNS.map((column) => (
-                    <th key={column.key} className="sticky top-0 border-b border-[var(--border)] px-3 py-2">
+                    <th
+                      key={column.key}
+                      scope="col"
+                      className="sticky top-0 border-b border-[var(--border)] bg-[var(--surface-muted)] px-3 py-2"
+                    >
                       {column.label}
                     </th>
                   ))}
@@ -288,8 +332,11 @@ export default async function ConstituencyDetailPage({
                       {ENTRY_COLUMNS.map((column) => {
                         const value = candidate.entry[column.key];
                         return (
-                          <td key={column.key} className="border-b border-[var(--border)] px-3 py-2">
-                            {value ?? "—"}
+                          <td
+                            key={column.key}
+                            className="border-b border-[var(--border)] px-3 py-2 align-top"
+                          >
+                            {typeof value === "string" ? formatText(value) : value ?? "—"}
                           </td>
                         );
                       })}
@@ -297,25 +344,34 @@ export default async function ConstituencyDetailPage({
                         const value = candidate.person[column.key];
                         if (column.key === "full_name") {
                           return (
-                            <td key={column.key} className="border-b border-[var(--border)] px-3 py-2 text-[var(--ink)]">
+                            <td
+                              key={column.key}
+                              className="border-b border-[var(--border)] px-3 py-2 align-top text-[var(--ink)]"
+                            >
                               <Link
                                 href={`/elections/${cycle}/candidates/${candidate.entry_id}`}
                                 className="font-semibold text-[var(--ink)] hover:text-[var(--flag-red)]"
                               >
-                                {value ?? "—"}
+                                {formatText(value)}
                               </Link>
                             </td>
                           );
                         }
                         return (
-                          <td key={column.key} className="border-b border-[var(--border)] px-3 py-2">
-                            {value ?? "—"}
+                          <td
+                            key={column.key}
+                            className="border-b border-[var(--border)] px-3 py-2 align-top"
+                          >
+                            {formatText(value)}
                           </td>
                         );
                       })}
                       {ATTRIBUTE_COLUMNS.map((column) => (
-                        <td key={column.key} className="border-b border-[var(--border)] px-3 py-2">
-                          {attributes.get(column.key) ?? "—"}
+                        <td
+                          key={column.key}
+                          className="border-b border-[var(--border)] px-3 py-2 align-top"
+                        >
+                          {formatText(attributes.get(column.key))}
                         </td>
                       ))}
                     </tr>
