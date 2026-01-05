@@ -16,7 +16,7 @@ export default function DisclaimerPage() {
       <section className="rounded-2xl border-2 border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-[var(--ink)]">Limitations</h2>
         <p className="mt-1 text-xs uppercase tracking-[0.2em] text-[var(--flag-red-deep)]">
-          Gioi han su dung
+          Giói hạn sử dụng
         </p>
         <ul className="mt-4 grid gap-3 text-sm text-[var(--ink-muted)]">
           <li>Data reflects the state of the sources at the time of collection.</li>
