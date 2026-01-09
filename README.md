@@ -11,6 +11,7 @@ Static, source-linked directory of official Vietnam election candidates. Built a
 - `app/`: Next.js App Router pages, layouts, and global styles.
 - `public/data/`: exported JSON used by the UI at runtime.
 - `data/na15-2021/`: raw inputs, staging scripts, and QA checks for NA15-2021.
+- `data/na15-2021/results/`: CEMA bulletin extracts + parsed per-constituency vote totals.
 - `data/staging.db`: SQLite staging database (build artifact).
 - `docs/style-guide.md`: visual style guide (palette, typography, components, motion).
 
@@ -37,6 +38,7 @@ python3 data/na15-2021/export-json.py
 
 Exports land in `public/data/elections/na15-2021/`.
 Commit `public/data/` outputs before deploying; CI does not rebuild data.
+Results exports include `public/data/elections/na15-2021/results.json`.
 
 ## Development Commands
 - `npm run dev`: start the dev server.

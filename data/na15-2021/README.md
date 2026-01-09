@@ -6,6 +6,7 @@
 2. File [candidates-list-vietnamese.pdf](./candidates-list/candidates-list-vietnamese.pdf) is taken from [https://www.hcmcpv.org.vn/](https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf) (fetched: 2026-01-02)
 3. File [congressional-units.pdf](./congressional-units.pdf) is taken from [https://quochoi.vn/](https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf) (fetched: 2026-01-02)
 4. The numbered docx files in [candidates-list/](./candidates-list/) were taken from [https://baochinhphu.vn](https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm) (fetched: 2026-01-02):
+5. Results bulletin (CEMA): [cong-bo-danh-sach-499-nguoi-trung-cu-dai-bieu-quoc-hoi-khoa-xv.htm](https://web.archive.org/web/20250221194402/http://www.cema.gov.vn/bau-cu-QH-HDND/cong-bo-danh-sach-499-nguoi-trung-cu-dai-bieu-quoc-hoi-khoa-xv.htm) (fetched: 2026-01-09)
 
 ## Data Pipeline
 - Build the staging database: `python3 data/na15-2021/build-staging-db.py` (creates `data/staging.db`)
@@ -21,6 +22,7 @@
   - `public/data/elections/na15-2021/constituencies.json`
   - `public/data/elections/na15-2021/documents.json`
   - `public/data/elections/na15-2021/timeline.json`
+  - `public/data/elections/na15-2021/results.json`
   - `public/data/elections/na15-2021/changelog.json`
 
 ## Candidate CSV Notes
@@ -50,7 +52,7 @@
 - `Nơi công tác` -> `attributes.workplace`
 
 ## Known Gaps / TBD
-- Sources table and per-field citations are not populated yet; current exports include empty `sources` arrays.
+- Sources table and per-field citations are not populated yet for candidate attributes.
 - Change logs are not populated yet; per-entry `changelog` is empty until diffs are generated.
 
 ## Note

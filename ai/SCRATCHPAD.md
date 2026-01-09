@@ -102,6 +102,9 @@
 - Update `README.md` + `data/na15-2021/README.md`.
 - Add any extra QA checks (e.g., winner counts if filtered).
 
+## Milestone 3 progress
+- Updated `README.md` and `data/na15-2021/README.md` with results inputs/outputs.
+
 ## Next step (awaiting your answers + approval)
 - Confirm approval to proceed with the remaining Milestone 2 tasks (results overview page + any candidate detail links).
 
