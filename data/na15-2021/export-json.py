@@ -88,6 +88,29 @@ def fetch_sources(conn: sqlite3.Connection, record_type: str, record_id: str) ->
     ]
 
 
+def fetch_document(conn: sqlite3.Connection, document_id: str) -> dict | None:
+    row = conn.execute(
+        """
+        SELECT id, title, url, file_path, doc_type, published_date, fetched_date, notes
+        FROM document
+        WHERE id = ?
+        """,
+        (document_id,),
+    ).fetchone()
+    if not row:
+        return None
+    return {
+        "id": row["id"],
+        "title": row["title"],
+        "url": row["url"],
+        "file_path": row["file_path"],
+        "doc_type": row["doc_type"],
+        "published_date": row["published_date"],
+        "fetched_date": row["fetched_date"],
+        "notes": row["notes"],
+    }
+
+
 def export_cycle(conn: sqlite3.Connection) -> None:
     conn.row_factory = sqlite3.Row
 
@@ -386,6 +409,78 @@ def export_cycle(conn: sqlite3.Connection) -> None:
         os.path.join(base_dir, "changelog.json"),
         {"cycle_id": cycle_id, "generated_at": generated_at, "records": []},
     )
+
+    results_summary_row = conn.execute(
+        """
+        SELECT id, total_seats, total_candidates, total_voters, total_votes_cast,
+               turnout_percent, valid_votes, invalid_votes, confirmed_winners,
+               unconfirmed_winners, source_document_id, notes
+        FROM election_result_summary
+        WHERE cycle_id = ?
+        ORDER BY id
+        LIMIT 1
+        """,
+        (cycle_id,),
+    ).fetchone()
+
+    results_records = [
+        {
+            "id": row["id"],
+            "candidate_entry_id": row["candidate_entry_id"],
+            "person_id": row["person_id"],
+            "candidate_name_vi": row["candidate_name"],
+            "candidate_name_folded": row["candidate_name_folded"],
+            "locality_id": row["locality_id"],
+            "constituency_id": row["constituency_id"],
+            "unit_number": row["unit_number"],
+            "unit_description_vi": row["unit_description"],
+            "order_in_unit": row["order_in_unit"],
+            "votes": row["votes"],
+            "votes_raw": row["votes_raw"],
+            "percent": row["percent"],
+            "percent_raw": row["percent_raw"],
+            "notes": row["notes"],
+            "sources": fetch_sources(conn, "election_result_candidate", row["id"]),
+        }
+        for row in conn.execute(
+            """
+            SELECT erc.id, erc.candidate_entry_id, erc.candidate_name, erc.candidate_name_folded,
+                   erc.locality_id, erc.constituency_id, erc.unit_number, erc.unit_description,
+                   erc.order_in_unit, erc.votes, erc.votes_raw, erc.percent, erc.percent_raw, erc.notes,
+                   ce.person_id AS person_id
+            FROM election_result_candidate erc
+            LEFT JOIN candidate_entry ce ON ce.id = erc.candidate_entry_id
+            WHERE erc.cycle_id = ?
+            ORDER BY erc.locality_id, erc.unit_number, erc.order_in_unit
+            """,
+            (cycle_id,),
+        ).fetchall()
+    ]
+
+    results_payload = {
+        "cycle_id": cycle_id,
+        "generated_at": generated_at,
+        "source": None,
+        "summary": None,
+        "records": results_records,
+    }
+
+    if results_summary_row:
+        source_id = results_summary_row["source_document_id"]
+        results_payload["source"] = fetch_document(conn, source_id) if source_id else None
+        results_payload["summary"] = {
+            "total_seats": results_summary_row["total_seats"],
+            "total_candidates": results_summary_row["total_candidates"],
+            "total_voters": results_summary_row["total_voters"],
+            "total_votes_cast": results_summary_row["total_votes_cast"],
+            "turnout_percent": results_summary_row["turnout_percent"],
+            "valid_votes": results_summary_row["valid_votes"],
+            "invalid_votes": results_summary_row["invalid_votes"],
+            "confirmed_winners": results_summary_row["confirmed_winners"],
+            "unconfirmed_winners": results_summary_row["unconfirmed_winners"],
+        }
+
+    write_json(os.path.join(base_dir, "results.json"), results_payload)
 
 
 def main() -> None:

@@ -27,6 +27,7 @@ DOC_URL_RESULTS_CEMA = "https://web.archive.org/web/20250221194402/http://www.ce
 DOC_PATH_CANDIDATE_PDF = "data/na15-2021/candidates-list/candidates-list-vietnamese.pdf"
 DOC_PATH_CONGRESSIONAL_UNITS = "data/na15-2021/congressional-units.pdf"
 RESULTS_CEMA_JSON = os.path.join(DATA_DIR, "results", "cema-district-results.json")
+RESULTS_SUMMARY_JSON = os.path.join(DATA_DIR, "results", "research.json")
 
 
 def fold_text(value: str) -> str:
@@ -229,6 +230,22 @@ def init_db(conn: sqlite3.Connection) -> None:
           votes_raw TEXT,
           percent REAL,
           percent_raw TEXT,
+          source_document_id TEXT REFERENCES document(id) ON DELETE RESTRICT,
+          notes TEXT
+        );
+
+        CREATE TABLE IF NOT EXISTS election_result_summary (
+          id TEXT PRIMARY KEY,
+          cycle_id TEXT NOT NULL REFERENCES election_cycle(id) ON DELETE CASCADE,
+          total_seats INTEGER,
+          total_candidates INTEGER,
+          total_voters INTEGER,
+          total_votes_cast INTEGER,
+          turnout_percent REAL,
+          valid_votes INTEGER,
+          invalid_votes INTEGER,
+          confirmed_winners INTEGER,
+          unconfirmed_winners INTEGER,
           source_document_id TEXT REFERENCES document(id) ON DELETE RESTRICT,
           notes TEXT
         );
@@ -873,6 +890,73 @@ def load_cema_results(
             ),
         )
 
+
+def load_results_summary(conn: sqlite3.Connection) -> None:
+    if not os.path.exists(RESULTS_SUMMARY_JSON):
+        return
+    with open(RESULTS_SUMMARY_JSON, "r", encoding="utf-8") as fh:
+        payload = json.load(fh)
+    sources = payload.get("sources", [])
+    cema_source = next(
+        (source for source in sources if source.get("id") == "cema_bulletin_499_winners"),
+        None,
+    )
+    if not cema_source:
+        return
+
+    results_section = cema_source.get("results_section", [])
+    stats = {}
+    for item in results_section:
+        if ":" not in item:
+            continue
+        label, value = item.split(":", 1)
+        label = label.strip().lstrip("-").strip()
+        value = value.strip()
+        stats[label] = value
+
+    def parse_int(value: str | None) -> int | None:
+        if not value:
+            return None
+        digits = value.replace(".", "").replace(",", "").strip()
+        return int(digits) if digits.isdigit() else None
+
+    def parse_percent(value: str | None) -> float | None:
+        if not value:
+            return None
+        cleaned = value.replace("%", "").strip().replace(",", ".")
+        try:
+            return float(cleaned)
+        except ValueError:
+            return None
+
+    summary_id = make_id("res-sum-", f"{ELECTION_CYCLE_ID}|cema")
+    document_id = make_id("doc-", f"web|{DOC_URL_RESULTS_CEMA}")
+
+    conn.execute(
+        """
+        INSERT INTO election_result_summary
+          (id, cycle_id, total_seats, total_candidates, total_voters,
+           total_votes_cast, turnout_percent, valid_votes, invalid_votes,
+           confirmed_winners, unconfirmed_winners, source_document_id, notes)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            summary_id,
+            ELECTION_CYCLE_ID,
+            parse_int(stats.get("Tổng số đại biểu Quốc hội được bầu")),
+            parse_int(stats.get("Tổng số người ứng cử")),
+            parse_int(stats.get("Tổng số cử tri trong cả nước")),
+            parse_int(stats.get("Tổng số cử tri đã tham gia bỏ phiếu")),
+            parse_percent(stats.get("Tỷ lệ cử tri đã tham gia bỏ phiếu so với tổng số cử tri trong cả nước")),
+            parse_int(stats.get("Số phiếu hợp lệ")),
+            parse_int(stats.get("Số phiếu không hợp lệ")),
+            parse_int(stats.get("Xác nhận kết quả của người trúng cử")),
+            parse_int(stats.get("Không xác nhận tư cách của người trúng cử")),
+            document_id,
+            "CEMA bulletin summary stats",
+        ),
+    )
+
 def main() -> None:
     ensure_dir(DATA_DIR)
     if os.path.exists(DB_PATH):
@@ -910,6 +994,7 @@ def main() -> None:
         add_candidate_sources(conn)
         add_constituency_sources(conn)
         load_cema_results(conn, maps["locality_key_map"], maps["constituency_map"])
+        load_results_summary(conn)
         conn.commit()
     finally:
         conn.close()

@@ -76,6 +76,16 @@
 - Implement export in `data/na15-2021/export-json.py`.
 - Output to `public/data/elections/na15-2021/` (new `results.json` or similar).
 
+## Draft results JSON format (pending approval)
+- File: `public/data/elections/na15-2021/results.json`
+- Top-level: `cycle_id`, `generated_at`, `source`, `summary`, `records`
+- `summary` fields (from CEMA stats): total seats, total candidates, total voters, turnout %, valid/invalid votes, confirmed/unconfirmed winners.
+- `records` fields: result id, candidate_entry_id, person_id, candidate name (vi + folded), locality_id, constituency_id, unit_number, unit_description_vi, order_in_unit, votes (+ raw), percent (+ raw), notes, sources.
+
+## Milestone 1 progress
+- Implemented `election_result_summary` in staging and export to `results.json`.
+- `results.json` now generated under `public/data/elections/na15-2021/`.
+
 ### Milestone 2: UI integration
 - Add results overview page (e.g., `/elections/[cycle]/results`).
 - Add results table above candidate details on constituency page.
