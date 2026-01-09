@@ -1,4 +1,4 @@
-# Vietnam Elections Candidate Directory
+# Vietnam Elections Project
 
 Static, source-linked directory of official Vietnam election candidates. Built as a Next.js App Router site with a build-time data pipeline (SQLite staging DB -> JSON exports) and deployed to GitHub Pages.
 
