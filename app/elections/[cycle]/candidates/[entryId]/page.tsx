@@ -228,20 +228,14 @@ function formatStatus(value: string): string {
     .join(" ");
 }
 
-function statusBadgeStyle(value: string | null): React.CSSProperties | undefined {
+function statusBadgeClass(value: string | null): string {
   if (value === "won") {
-    return {
-      borderColor: "var(--status-won, #2f8f6b)",
-      color: "var(--status-won, #2f8f6b)",
-    };
+    return "border-[color:var(--status-won)] text-[color:var(--status-won)]";
   }
   if (value === "lost") {
-    return {
-      borderColor: "var(--status-lost, #b0742d)",
-      color: "var(--status-lost, #b0742d)",
-    };
+    return "border-[color:var(--status-lost)] text-[color:var(--status-lost)]";
   }
-  return undefined;
+  return "border-[var(--border)] text-[var(--ink)]";
 }
 
 function deriveResultStatus(
@@ -389,20 +383,13 @@ export default async function CandidateDetailPage({
                 Status · Trạng thái
               </span>
               <div className="mt-2 flex flex-wrap gap-2 text-xs">
-                {derivedStatus ? (() => {
-                  const style = statusBadgeStyle(derivedStatus);
-                  const baseClass =
-                    "rounded-full border-2 bg-[var(--surface-muted)] px-2 py-0.5";
-                  const fallbackClass = "border-[var(--border)] text-[var(--ink)]";
-                  return (
-                    <span
-                      className={`${baseClass} ${style ? "" : fallbackClass}`}
-                      style={style}
-                    >
-                      {formatStatus(derivedStatus)}
-                    </span>
-                  );
-                })() : (
+                {derivedStatus ? (
+                  <span
+                    className={`rounded-full border-2 bg-[var(--surface-muted)] px-2 py-0.5 ${statusBadgeClass(derivedStatus)}`}
+                  >
+                    {formatStatus(derivedStatus)}
+                  </span>
+                ) : (
                   <span className="text-[var(--ink-muted)]">—</span>
                 )}
                 {resultsRecord.annotations.map((annotation) => (
