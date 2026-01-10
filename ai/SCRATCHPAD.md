@@ -71,3 +71,4 @@ ok, so I want you to investigate something. We have got the election results for
   - Constituency results table includes a Status column with Win/Lose + annotations.
 - Regenerated JSON exports via `python3.11 data/na15-2021/export-json.py` (all `public/data/elections/na15-2021/*.json` touched).
 - Update: derived status stored as `won`/`lost` in export for past-tense display.
+- Update: add won/lost badge colors via CSS vars for light/dark mode.
