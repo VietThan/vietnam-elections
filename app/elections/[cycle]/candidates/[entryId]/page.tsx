@@ -228,6 +228,22 @@ function formatStatus(value: string): string {
     .join(" ");
 }
 
+function statusBadgeStyle(value: string | null): React.CSSProperties | undefined {
+  if (value === "won") {
+    return {
+      borderColor: "var(--status-won, #2f8f6b)",
+      color: "var(--status-won, #2f8f6b)",
+    };
+  }
+  if (value === "lost") {
+    return {
+      borderColor: "var(--status-lost, #b0742d)",
+      color: "var(--status-lost, #b0742d)",
+    };
+  }
+  return undefined;
+}
+
 function deriveResultStatus(
   orderInUnit: number | null,
   seatCount: number | null | undefined
@@ -373,11 +389,20 @@ export default async function CandidateDetailPage({
                 Status · Trạng thái
               </span>
               <div className="mt-2 flex flex-wrap gap-2 text-xs">
-                {derivedStatus ? (
-                  <span className="rounded-full border-2 border-[var(--border)] bg-[var(--surface-muted)] px-2 py-0.5 text-[var(--ink)]">
-                    {formatStatus(derivedStatus)}
-                  </span>
-                ) : (
+                {derivedStatus ? (() => {
+                  const style = statusBadgeStyle(derivedStatus);
+                  const baseClass =
+                    "rounded-full border-2 bg-[var(--surface-muted)] px-2 py-0.5";
+                  const fallbackClass = "border-[var(--border)] text-[var(--ink)]";
+                  return (
+                    <span
+                      className={`${baseClass} ${style ? "" : fallbackClass}`}
+                      style={style}
+                    >
+                      {formatStatus(derivedStatus)}
+                    </span>
+                  );
+                })() : (
                   <span className="text-[var(--ink-muted)]">—</span>
                 )}
                 {resultsRecord.annotations.map((annotation) => (
