@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Vietnam Elections",
-  description: "A static, sourced directory of official Vietnam election candidates.",
+  description:
+    "A static, sourced directory of official Vietnam election candidates. A Bamboo Filing Cabinet project.",
 };
 
 export default function RootLayout({
@@ -41,15 +42,27 @@ export default function RootLayout({
           </div>
           <header className="relative z-50 border-b-4 border-[var(--flag-red)] bg-[var(--surface)]/90 backdrop-blur">
             <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-5">
-              <Link className="flex items-center gap-3" href="/">
+              <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--flag-red)] text-xs font-semibold tracking-[0.2em] text-white shadow-sm ring-2 ring-[var(--flag-yellow)]">
                   VE
                 </div>
-                <div>
-                  <p className="text-lg font-semibold leading-tight text-[var(--ink)]">Vietnam Elections</p>
-                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--ink-muted)]">Open Data Vietnam</p>
+                <div className="flex flex-col">
+                  <Link
+                    className="text-lg font-semibold leading-tight text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--flag-yellow)]/70"
+                    href="/"
+                  >
+                    Vietnam Elections
+                  </Link>
+                  <a
+                    className="text-xs uppercase tracking-[0.2em] text-[var(--ink-muted)] hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--flag-yellow)]/70"
+                    href="https://bamboo-filing-cabinet.github.io/"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    A Bamboo Filing Cabinet Project
+                  </a>
                 </div>
-              </Link>
+              </div>
               <div className="hidden items-center gap-4 md:flex">
                 <nav className="flex items-center gap-5 text-sm font-medium text-[var(--ink-muted)]">
                   <Link className="hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--flag-yellow)]/70" href="/">
@@ -92,6 +105,14 @@ export default function RootLayout({
                 <Link className="hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--flag-yellow)]/70" href="/changelog">
                   Changelog
                 </Link>
+                <a
+                  className="hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--flag-yellow)]/70"
+                  href="https://bamboo-filing-cabinet.github.io/"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Bamboo Filing Cabinet
+                </a>
                 <a
                   className="hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--flag-yellow)]/70"
                   href="https://github.com/VietThan/vietnam-elections"
