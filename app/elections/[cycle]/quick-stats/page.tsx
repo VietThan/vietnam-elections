@@ -42,6 +42,20 @@ const quickStats = {
         "Hà Ánh Phượng — 29 (Tỉnh Phú Thọ, unit 1)",
         "Phạm Thị Xuân — 29 (Tỉnh Thanh Hóa, unit 5)",
       ],
+      oldestCandidates: [
+        "Nguyễn Phú Trọng — 77 (TP. Hà Nội, unit 1)",
+        "Lê Phương Hồng (Phối sư Ngọc Hồng Thanh) — 73 (Tỉnh Tây Ninh, unit 2)",
+        "Trần Đức Cường — 73 (TP. Hồ Chí Minh, unit 10)",
+        "Nguyễn Thị Yến (Ni sư Thích Nữ Tín Liên) — 70 (TP. Hồ Chí Minh, unit 7)",
+        "Nguyễn Chu Hồi — 69 (TP. Hải Phòng, unit 2)",
+      ],
+      youngestCandidates: [
+        "Quàng Thị Nguyệt — 23 (Tỉnh Điện Biên, unit 1)",
+        "Bùi Thị Tuyết Nhung — 23 (Tỉnh Phú Thọ, unit 1)",
+        "Vũ Tiến Vượng — 23 (TP. Hà Nội, unit 1)",
+        "Lý Thị An — 24 (Tỉnh Điện Biên, unit 1)",
+        "Nàng Xô Vi — 25 (Tỉnh Kon Tum, unit 1)",
+      ],
     },
     topVotes: [
       "Ông Nguyễn Xuân Phúc — 622,984 (TP. Hồ Chí Minh, unit 10)",
@@ -261,6 +275,44 @@ export default async function QuickStatsPage({
                 Median {stats.ageSummary.winners.median}
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--surface)] p-6">
+          <h2 className="text-lg font-semibold text-[var(--ink)]">
+            Oldest candidates
+          </h2>
+          <div className="mt-4">
+            <StatList items={stats.ageSummary.oldestCandidates} />
+          </div>
+        </div>
+        <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--surface)] p-6">
+          <h2 className="text-lg font-semibold text-[var(--ink)]">
+            Youngest candidates
+          </h2>
+          <div className="mt-4">
+            <StatList items={stats.ageSummary.youngestCandidates} />
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--surface)] p-6">
+          <h2 className="text-lg font-semibold text-[var(--ink)]">
+            Oldest winners
+          </h2>
+          <div className="mt-4">
+            <StatList items={stats.ageSummary.oldestWinners} />
+          </div>
+        </div>
+        <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--surface)] p-6">
+          <h2 className="text-lg font-semibold text-[var(--ink)]">
+            Youngest winners
+          </h2>
+          <div className="mt-4">
+            <StatList items={stats.ageSummary.youngestWinners} />
           </div>
         </div>
       </section>
