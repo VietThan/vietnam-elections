@@ -1,0 +1,3 @@
+# National Assembly Election 2016 - Candidates List
+
+1. [candidates-list-vietnamese.pdf](candidates-list-vietnamese.pdf) was taken from [https://ubdt.gov.vn/](http://files.ubdt.gov.vn/ContentFolder/ubdt/source_files/2016/04/28/14441551_Danh%20sach%20ung%20cu%20DBQH%2063%20TinhThanh%20pho_16-04-28.pdf) which was linked from [this article](http://www.cema.gov.vn/home/cong-bo-danh-sach-chinh-thuc-870-nguoi-ung-cu-dai-bieu-quoc-hoi-khoa-xiv.htm) published 2016-April-26 and retrieved 2026-Jan-20.
