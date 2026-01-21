@@ -22,6 +22,7 @@ def main() -> int:
     conn.row_factory = sqlite3.Row
     errors: list[str] = []
     warnings: list[str] = []
+    allowed_statuses = ("won", "lost", "not_confirmed")
 
     try:
         fk_issues = fetch_all(conn, "PRAGMA foreign_key_check")
@@ -92,6 +93,35 @@ def main() -> int:
         if missing_results_match:
             errors.append(
                 f"Election result candidates missing candidate_entry match: {len(missing_results_match)}"
+            )
+
+        invalid_statuses = fetch_all(
+            conn,
+            """
+            SELECT id, status
+            FROM election_result_candidate_annotation
+            WHERE status NOT IN (?, ?, ?)
+            """,
+            allowed_statuses,
+        )
+        if invalid_statuses:
+            errors.append(
+                f"Election result annotations with invalid status: {len(invalid_statuses)}"
+            )
+
+        missing_annotations = fetch_all(
+            conn,
+            """
+            SELECT erc.id
+            FROM election_result_candidate erc
+            LEFT JOIN election_result_candidate_annotation erca
+              ON erca.result_id = erc.id
+            WHERE erca.id IS NULL
+            """,
+        )
+        if missing_annotations:
+            errors.append(
+                f"Election result candidates missing annotations: {len(missing_annotations)}"
             )
 
         document_count = fetch_all(conn, "SELECT COUNT(*) AS cnt FROM document")

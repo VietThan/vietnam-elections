@@ -95,7 +95,7 @@ type ResultsRecord = {
   unit_number: number | null;
   unit_description_vi: string | null;
   order_in_unit: number | null;
-  status: string | null;
+  statuses: string[];
   votes: number | null;
   votes_raw: string | null;
   percent: number | null;
@@ -277,7 +277,7 @@ function formatStatus(value: string): string {
     .join(" ");
 }
 
-function statusBadgeStyle(value: string | null): React.CSSProperties | undefined {
+function statusBadgeStyle(value: string): React.CSSProperties | undefined {
   if (value === "won") {
     return {
       borderColor: "var(--status-won, #2f8f6b)",
@@ -290,20 +290,13 @@ function statusBadgeStyle(value: string | null): React.CSSProperties | undefined
       color: "var(--status-lost, #b0742d)",
     };
   }
+  if (value === "not_confirmed") {
+    return {
+      borderColor: "var(--status-not-confirmed, #c5392b)",
+      color: "var(--status-not-confirmed, #c5392b)",
+    };
+  }
   return undefined;
-}
-
-function deriveResultStatus(
-  orderInUnit: number | null,
-  seatCount: number | null | undefined
-): string | null {
-  if (orderInUnit === null || orderInUnit === undefined) {
-    return null;
-  }
-  if (seatCount === null || seatCount === undefined) {
-    return null;
-  }
-  return orderInUnit <= seatCount ? "win" : "lose";
 }
 
 function formatAnnotationDetails(annotation: ResultsRecord["annotations"][number]): string {
@@ -395,6 +388,13 @@ export default async function ConstituencyDetailPage({
         .filter((record) => record.constituency_id === constituencyId)
         .sort((a, b) => (a.order_in_unit ?? 0) - (b.order_in_unit ?? 0))
     : [];
+  const annotationSourceIds = new Set(
+    resultsRecords
+      .flatMap((record) => record.annotations.map((annotation) => annotation.source?.id))
+      .filter((value): value is string => Boolean(value))
+  );
+  const showResultsSource =
+    !!resultsPayload?.source && !annotationSourceIds.has(resultsPayload.source.id);
 
   const localityName =
     localitiesPayload.records.find((record) => record.id === constituency.locality_id)
@@ -514,9 +514,13 @@ export default async function ConstituencyDetailPage({
                     const name = candidate
                       ? candidate.person.full_name
                       : record.candidate_name_vi;
-                    const derivedStatus =
-                      record.status ??
-                      deriveResultStatus(record.order_in_unit, constituency.seat_count ?? null);
+                    const statuses = record.statuses ?? [];
+                    const statusNotes = new Map<string, ResultsRecord["annotations"][number]>();
+                    record.annotations.forEach((annotation) => {
+                      if (!statusNotes.has(annotation.status)) {
+                        statusNotes.set(annotation.status, annotation);
+                      }
+                    });
                     return (
                       <tr
                         key={record.id}
@@ -559,31 +563,27 @@ export default async function ConstituencyDetailPage({
                           className={`border-b border-[var(--border)] px-3 py-2 align-top ${COL_CLASSES.wide}`}
                         >
                           <div className="flex flex-wrap gap-2 text-xs">
-                            {derivedStatus ? (() => {
-                              const style = statusBadgeStyle(derivedStatus);
-                              const baseClass =
-                                "rounded-full border-2 bg-[var(--surface-muted)] px-2 py-0.5";
-                              const fallbackClass = "border-[var(--border)] text-[var(--ink)]";
-                              return (
-                                <span
-                                  className={`${baseClass} ${style ? "" : fallbackClass}`}
-                                  style={style}
-                                >
-                                  {formatStatus(derivedStatus)}
-                                </span>
-                              );
-                            })() : (
+                            {statuses.length > 0 ? (
+                              statuses.map((status) => {
+                                const style = statusBadgeStyle(status);
+                                const baseClass =
+                                  "rounded-full border-2 bg-[var(--surface-muted)] px-2 py-0.5";
+                                const fallbackClass = "border-[var(--border)] text-[var(--ink)]";
+                                const details = statusNotes.get(status);
+                                return (
+                                  <span
+                                    key={status}
+                                    className={`${baseClass} ${style ? "" : fallbackClass}`}
+                                    style={style}
+                                    title={details ? formatAnnotationDetails(details) : undefined}
+                                  >
+                                    {formatStatus(status)}
+                                  </span>
+                                );
+                              })
+                            ) : (
                               <span className="text-[var(--ink-muted)]">—</span>
                             )}
-                            {record.annotations.map((annotation) => (
-                              <span
-                                key={annotation.id}
-                                className="rounded-full border-2 border-[var(--flag-red)]/40 bg-[var(--surface-muted)] px-2 py-0.5 text-[var(--flag-red-deep)]"
-                                title={formatAnnotationDetails(annotation)}
-                              >
-                                {formatStatus(annotation.status)}
-                              </span>
-                            ))}
                           </div>
                         </td>
                       </tr>
@@ -743,7 +743,7 @@ export default async function ConstituencyDetailPage({
       </section>
 
       {(constituency.sources && constituency.sources.length > 0) ||
-      resultsPayload?.source?.title ? (
+      showResultsSource ? (
         <section className="rounded-2xl border-2 border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-[var(--ink)]">
             Sources · Nguồn tài liệu
@@ -800,7 +800,7 @@ export default async function ConstituencyDetailPage({
                 </div>
               </div>
             )}
-            {resultsPayload?.source?.title && (
+            {showResultsSource && resultsPayload?.source?.title && (
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-[var(--flag-red-deep)]">
                   Results source · Nguồn kết quả

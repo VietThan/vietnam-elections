@@ -82,7 +82,7 @@ type ResultsRecord = {
   unit_number: number | null;
   unit_description_vi: string | null;
   order_in_unit: number | null;
-  status: string | null;
+  statuses: string[];
   votes: number | null;
   votes_raw: string | null;
   percent: number | null;
@@ -228,7 +228,7 @@ function formatStatus(value: string): string {
     .join(" ");
 }
 
-function statusBadgeStyle(value: string | null): React.CSSProperties | undefined {
+function statusBadgeStyle(value: string): React.CSSProperties | undefined {
   if (value === "won") {
     return {
       borderColor: "var(--status-won, #2f8f6b)",
@@ -241,20 +241,13 @@ function statusBadgeStyle(value: string | null): React.CSSProperties | undefined
       color: "var(--status-lost, #b0742d)",
     };
   }
+  if (value === "not_confirmed") {
+    return {
+      borderColor: "var(--status-not-confirmed, #c5392b)",
+      color: "var(--status-not-confirmed, #c5392b)",
+    };
+  }
   return undefined;
-}
-
-function deriveResultStatus(
-  orderInUnit: number | null,
-  seatCount: number | null | undefined
-): string | null {
-  if (orderInUnit === null || orderInUnit === undefined) {
-    return null;
-  }
-  if (seatCount === null || seatCount === undefined) {
-    return null;
-  }
-  return orderInUnit <= seatCount ? "win" : "lose";
 }
 
 function formatAnnotationDetails(annotation: ResultsAnnotation): string {
@@ -321,9 +314,20 @@ export default async function CandidateDetailPage({
   }
   const resultsRecord =
     resultsPayload?.records.find((record) => record.candidate_entry_id === entryId) ?? null;
-  const derivedStatus =
-    resultsRecord?.status ??
-    deriveResultStatus(resultsRecord?.order_in_unit ?? null, payload.constituency?.seat_count);
+  const statuses = resultsRecord?.statuses ?? [];
+  const statusNotes = new Map<string, ResultsAnnotation>();
+  resultsRecord?.annotations.forEach((annotation) => {
+    if (!statusNotes.has(annotation.status)) {
+      statusNotes.set(annotation.status, annotation);
+    }
+  });
+  const annotationSourceIds = new Set(
+    resultsRecord?.annotations
+      .map((annotation) => annotation.source?.id)
+      .filter((value): value is string => Boolean(value)) ?? []
+  );
+  const showResultsSource =
+    !!resultsPayload?.source && !annotationSourceIds.has(resultsPayload.source.id);
   const politicalBackground = [
     {
       label: { en: "Party member since", vi: "Ngày vào Đảng" },
@@ -389,31 +393,27 @@ export default async function CandidateDetailPage({
                 Status · Trạng thái
               </span>
               <div className="mt-2 flex flex-wrap gap-2 text-xs">
-                {derivedStatus ? (() => {
-                  const style = statusBadgeStyle(derivedStatus);
-                  const baseClass =
-                    "rounded-full border-2 bg-[var(--surface-muted)] px-2 py-0.5";
-                  const fallbackClass = "border-[var(--border)] text-[var(--ink)]";
-                  return (
-                    <span
-                      className={`${baseClass} ${style ? "" : fallbackClass}`}
-                      style={style}
-                    >
-                      {formatStatus(derivedStatus)}
-                    </span>
-                  );
-                })() : (
+                {statuses.length > 0 ? (
+                  statuses.map((status) => {
+                    const style = statusBadgeStyle(status);
+                    const baseClass =
+                      "rounded-full border-2 bg-[var(--surface-muted)] px-2 py-0.5";
+                    const fallbackClass = "border-[var(--border)] text-[var(--ink)]";
+                    const details = statusNotes.get(status);
+                    return (
+                      <span
+                        key={status}
+                        className={`${baseClass} ${style ? "" : fallbackClass}`}
+                        style={style}
+                        title={details ? formatAnnotationDetails(details) : undefined}
+                      >
+                        {formatStatus(status)}
+                      </span>
+                    );
+                  })
+                ) : (
                   <span className="text-[var(--ink-muted)]">—</span>
                 )}
-                {resultsRecord.annotations.map((annotation) => (
-                  <span
-                    key={annotation.id}
-                    className="rounded-full border-2 border-[var(--flag-red)]/40 bg-[var(--surface-muted)] px-2 py-0.5 text-[var(--flag-red-deep)]"
-                    title={formatAnnotationDetails(annotation)}
-                  >
-                    {formatStatus(annotation.status)}
-                  </span>
-                ))}
               </div>
             </div>
             <div className="mt-4 grid gap-3 text-sm text-[var(--ink-muted)] sm:grid-cols-3">
@@ -514,13 +514,13 @@ export default async function CandidateDetailPage({
           documents used for this entry.
         </p>
         <div className="mt-4 grid gap-4">
-          {(resultsPayload?.source || resultsRecord?.annotations.length) && (
+          {(showResultsSource || resultsRecord?.annotations.length) && (
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-[var(--flag-red-deep)]">
                 Results sources · Nguồn kết quả
               </p>
               <div className="mt-3 grid gap-3">
-                {resultsPayload?.source && (
+                {showResultsSource && resultsPayload?.source && (
                   <div className="rounded-2xl border-2 border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm text-[var(--ink-muted)]">
                     <div className="flex flex-col gap-1">
                       <span className="font-semibold text-[var(--ink)]">

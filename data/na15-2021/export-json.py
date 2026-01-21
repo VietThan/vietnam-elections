@@ -428,10 +428,9 @@ def export_cycle(conn: sqlite3.Connection) -> None:
         SELECT erc.id, erc.candidate_entry_id, erc.candidate_name, erc.candidate_name_folded,
                erc.locality_id, erc.constituency_id, erc.unit_number, erc.unit_description,
                erc.order_in_unit, erc.votes, erc.votes_raw, erc.percent, erc.percent_raw, erc.notes,
-               ce.person_id AS person_id, c.seat_count AS seat_count
+               ce.person_id AS person_id
         FROM election_result_candidate erc
         LEFT JOIN candidate_entry ce ON ce.id = erc.candidate_entry_id
-        LEFT JOIN constituency c ON c.id = erc.constituency_id
         WHERE erc.cycle_id = ?
         ORDER BY erc.locality_id, erc.unit_number, erc.order_in_unit
         """,
@@ -439,9 +438,6 @@ def export_cycle(conn: sqlite3.Connection) -> None:
     ).fetchall()
     results_records = []
     for row in results_rows:
-        status = None
-        if row["order_in_unit"] is not None and row["seat_count"] is not None:
-            status = "won" if row["order_in_unit"] <= row["seat_count"] else "lost"
         annotations = [
             {
                 "id": ann["id"],
@@ -461,6 +457,11 @@ def export_cycle(conn: sqlite3.Connection) -> None:
                 (row["id"],),
             ).fetchall()
         ]
+        statuses = []
+        for ann in annotations:
+            status_value = ann["status"]
+            if status_value and status_value not in statuses:
+                statuses.append(status_value)
         results_records.append(
             {
                 "id": row["id"],
@@ -473,7 +474,7 @@ def export_cycle(conn: sqlite3.Connection) -> None:
                 "unit_number": row["unit_number"],
                 "unit_description_vi": row["unit_description"],
                 "order_in_unit": row["order_in_unit"],
-                "status": status,
+                "statuses": statuses,
                 "votes": row["votes"],
                 "votes_raw": row["votes_raw"],
                 "percent": row["percent"],

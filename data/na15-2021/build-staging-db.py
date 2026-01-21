@@ -978,6 +978,7 @@ def load_results_summary(conn: sqlite3.Connection) -> None:
 
 
 def load_result_annotations(conn: sqlite3.Connection) -> None:
+    add_result_status_annotations(conn)
     if not os.path.exists(RESULTS_SUMMARY_JSON):
         return
     with open(RESULTS_SUMMARY_JSON, "r", encoding="utf-8") as fh:
@@ -1013,6 +1014,18 @@ def load_result_annotations(conn: sqlite3.Connection) -> None:
         return
 
     annotation_id = make_id("res-ann-", f"{ELECTION_CYCLE_ID}|{result_row[0]}|not_confirmed")
+    existing = conn.execute(
+        """
+        SELECT 1
+        FROM election_result_candidate_annotation
+        WHERE result_id = ? AND status = ?
+        LIMIT 1
+        """,
+        (result_row[0], "not_confirmed"),
+    ).fetchone()
+    if existing:
+        return
+
     conn.execute(
         """
         INSERT INTO election_result_candidate_annotation
@@ -1029,6 +1042,51 @@ def load_result_annotations(conn: sqlite3.Connection) -> None:
             "Per VTV report",
         ),
     )
+
+
+def add_result_status_annotations(conn: sqlite3.Connection) -> None:
+    document_id = make_id("doc-", f"web|{DOC_URL_RESULTS_CEMA}")
+    existing = conn.execute(
+        """
+        SELECT result_id, status
+        FROM election_result_candidate_annotation
+        """,
+    ).fetchall()
+    existing_pairs = {(row[0], row[1]) for row in existing}
+
+    results_rows = conn.execute(
+        """
+        SELECT erc.id, erc.order_in_unit, c.seat_count
+        FROM election_result_candidate erc
+        LEFT JOIN constituency c ON c.id = erc.constituency_id
+        WHERE erc.cycle_id = ?
+        """,
+        (ELECTION_CYCLE_ID,),
+    ).fetchall()
+
+    for result_id, order_in_unit, seat_count in results_rows:
+        if order_in_unit is None or seat_count is None:
+            continue
+        status = "won" if order_in_unit <= seat_count else "lost"
+        if (result_id, status) in existing_pairs:
+            continue
+        annotation_id = make_id("res-ann-", f"{ELECTION_CYCLE_ID}|{result_id}|{status}")
+        conn.execute(
+            """
+            INSERT INTO election_result_candidate_annotation
+              (id, result_id, status, reason, effective_date, source_document_id, notes)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                annotation_id,
+                result_id,
+                status,
+                "Derived from order_in_unit vs seat_count",
+                None,
+                document_id,
+                "Auto-generated baseline status",
+            ),
+        )
 
 def main() -> None:
     ensure_dir(DATA_DIR)

@@ -25,6 +25,9 @@
   - `public/data/elections/na15-2021/results.json`
   - `public/data/elections/na15-2021/changelog.json`
 
+Notes:
+- `results.json` exports `statuses` per candidate result, derived from annotations. No single `status` is exported.
+
 ## Candidate CSV Notes
 - Files: `data/na15-2021/candidates-list/*.csv` (extracted from official DOCX/PDF sources).
 - Key columns used in staging: `province_or_city`, `unit_number`, `STT`, `Họ và tên`, `Ngày tháng năm sinh`, `Giới tính`, `Quốc tịch`, `Dân tộc`, `Tôn giáo`, `Quê quán`, `Nơi ở hiện nay`, `Nghề nghiệp, chức vụ`, `Nơi công tác`, and education-related fields.
