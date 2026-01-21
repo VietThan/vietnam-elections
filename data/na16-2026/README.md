@@ -1,0 +1,3 @@
+# National Assembly XVI Election 20126 Data
+
+1. congressional unit is from "Nghị quyết 85/NQ-HĐBCQG" which got from [https://xaydungchinhsach.chinhphu.vn](https://xaydungchinhsach.chinhphu.vn/nghi-quyet-85-nq-hdbcqg-ve-so-don-vi-bau-cu-danh-sach-cac-don-vi-bau-cu-so-luong-dai-bieu-quoc-hoi-duoc-bau-o-moi-don-vi-bau-cu-119260104122958567.htm) published "ngày 15 tháng 12 năm 2025" and retrieved 2026-Jan-20.
