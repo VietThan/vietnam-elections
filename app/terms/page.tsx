@@ -22,6 +22,20 @@ export default function TermsPage() {
           <li>Attribution to official sources is required when reusing data.</li>
         </ul>
       </section>
+
+      <section className="rounded-2xl border-2 border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm">
+        <h2 className="text-lg font-semibold text-[var(--ink)]">Licensing</h2>
+        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-[var(--flag-red-deep)]">Giấy phép</p>
+        <ul className="mt-4 grid gap-3 text-sm text-[var(--ink-muted)]">
+          <li>Code: Apache-2.0 (see the GitHub repository LICENSE file).</li>
+          <li>Compiled dataset outputs (public/data JSON): CC-BY 4.0 with attribution.</li>
+          <li>Underlying sources are third-party materials; terms may be unclear.</li>
+        </ul>
+        <p className="mt-4 text-sm text-[var(--ink-muted)]">
+          Suggested attribution: “Vietnam Elections dataset by Bamboo Filing Cabinet,
+          retrieved YYYY-MM-DD, https://bamboo-filing-cabinet.github.io/vietnam-elections/”.
+        </p>
+      </section>
     </div>
   );
 }
