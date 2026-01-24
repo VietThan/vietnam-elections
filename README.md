@@ -55,6 +55,12 @@ Results exports include `public/data/elections/na15-2021/results.json`.
 - MVP cycle: NA15-2021 (15th National Assembly).
 - Future cycles: stub routing exists; add datasets as they become available.
 
+## Licensing
+- Code: Apache-2.0 (see `LICENSE`).
+- Compiled dataset outputs (e.g., `public/data/` JSON exports): CC-BY 4.0.
+- Underlying source materials remain © their respective owners; source terms are not always clear and are documented where available.
+- Attribution format for CC-BY reuse: “Vietnam Elections dataset by Bamboo Filing Cabinet, retrieved YYYY-MM-DD, https://bamboo-filing-cabinet.github.io/vietnam-elections/”.
+
 ## Notes
 - All UI copy and data outputs are intended to remain neutral and fully sourced.
 - If you add tests, document the framework and add an `npm run test` script.
