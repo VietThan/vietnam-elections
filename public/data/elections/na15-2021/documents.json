@@ -1,136 +1,216 @@
 {
   "cycle_id": "na15-2021",
-  "generated_at": "2026-01-21T02:14:04Z",
+  "generated_at": "2026-01-26T00:34:10Z",
   "records": [
     {
       "id": "doc-d95dfdf30653",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (1.1-26.docx)",
       "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
       "file_path": "data/na15-2021/candidates-list/1.1-26.docx",
       "doc_type": "docx",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": null,
+      "terms_url": null,
+      "terms_checked_at": null,
+      "terms_notes": null
     },
     {
       "id": "doc-2cee3c58e323",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (2.27-54.docx)",
       "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
       "file_path": "data/na15-2021/candidates-list/2.27-54.docx",
       "doc_type": "docx",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": null,
+      "terms_url": null,
+      "terms_checked_at": null,
+      "terms_notes": null
     },
     {
       "id": "doc-d394604fbba0",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (3.55-104.docx)",
       "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
       "file_path": "data/na15-2021/candidates-list/3.55-104.docx",
       "doc_type": "docx",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": null,
+      "terms_url": null,
+      "terms_checked_at": null,
+      "terms_notes": null
     },
     {
       "id": "doc-9fc5d9371cec",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (4.105-136.docx)",
       "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
       "file_path": "data/na15-2021/candidates-list/4.105-136.docx",
       "doc_type": "docx",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": null,
+      "terms_url": null,
+      "terms_checked_at": null,
+      "terms_notes": null
     },
     {
       "id": "doc-7ad1da38132f",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (5.137-172.docx)",
       "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
       "file_path": "data/na15-2021/candidates-list/5.137-172.docx",
       "doc_type": "docx",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": null,
+      "terms_url": null,
+      "terms_checked_at": null,
+      "terms_notes": null
     },
     {
       "id": "doc-7d52d1cbc019",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (6.173-242.docx)",
       "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
       "file_path": "data/na15-2021/candidates-list/6.173-242.docx",
       "doc_type": "docx",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": null,
+      "terms_url": null,
+      "terms_checked_at": null,
+      "terms_notes": null
     },
     {
       "id": "doc-5accb5d5dcf7",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (7.243-298.docx)",
       "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
       "file_path": "data/na15-2021/candidates-list/7.243-298.docx",
       "doc_type": "docx",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": null,
+      "terms_url": null,
+      "terms_checked_at": null,
+      "terms_notes": null
     },
     {
       "id": "doc-f4dc50a9069a",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (8.299-344.docx)",
       "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
       "file_path": "data/na15-2021/candidates-list/8.299-344.docx",
       "doc_type": "docx",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": null,
+      "terms_url": null,
+      "terms_checked_at": null,
+      "terms_notes": null
     },
     {
       "id": "doc-a686d97ebb20",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (9.345-446.docx)",
       "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
       "file_path": "data/na15-2021/candidates-list/9.345-446.docx",
       "doc_type": "docx",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": null,
+      "terms_url": null,
+      "terms_checked_at": null,
+      "terms_notes": null
     },
     {
       "id": "doc-d206c777cd70",
+      "cycle_id": "na15-2021",
       "title": "Candidate list (PDF)",
       "url": "https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf",
       "file_path": "data/na15-2021/candidates-list/candidates-list-vietnamese.pdf",
       "doc_type": "pdf",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": "GOV_PUBLIC_INFO",
+      "terms_url": null,
+      "terms_checked_at": "2026-01-02",
+      "terms_notes": null
+    },
+    {
+      "id": "doc-056a6f652935",
+      "cycle_id": "na15-2021",
+      "title": "Candidate list source page (Bao Chinh Phu)",
+      "url": "https://baochinhphu.vn/danh-sach-868-nguoi-ung-cu-dbqh-khoa-xv-102291334.htm",
+      "file_path": null,
+      "doc_type": "web",
+      "published_date": null,
+      "fetched_date": "2026-01-02",
+      "notes": null,
+      "terms_status": "GOV_PUBLIC_INFO",
+      "terms_url": null,
+      "terms_checked_at": "2026-01-02",
+      "terms_notes": null
     },
     {
       "id": "doc-550cd8ad955d",
+      "cycle_id": "na15-2021",
       "title": "Congressional units (PDF)",
       "url": "https://images.hcmcpv.org.vn/Uploads/File/280420219523F244/Danhsachbaucu-PYFO.pdf",
       "file_path": "data/na15-2021/congressional-units.pdf",
       "doc_type": "pdf",
       "published_date": null,
       "fetched_date": "2026-01-02",
-      "notes": null
+      "notes": null,
+      "terms_status": "GOV_PUBLIC_INFO",
+      "terms_url": null,
+      "terms_checked_at": "2026-01-02",
+      "terms_notes": null
     },
     {
       "id": "doc-d092dea9f7b3",
+      "cycle_id": "na15-2021",
       "title": "Election results bulletin (CEMA)",
       "url": "https://web.archive.org/web/20250221194402/http://www.cema.gov.vn/bau-cu-QH-HDND/cong-bo-danh-sach-499-nguoi-trung-cu-dai-bieu-quoc-hoi-khoa-xv.htm",
       "file_path": null,
       "doc_type": "web",
       "published_date": "2021-06-11",
       "fetched_date": "2026-01-09",
-      "notes": null
+      "notes": null,
+      "terms_status": "GOV_PUBLIC_INFO",
+      "terms_url": null,
+      "terms_checked_at": "2026-01-09",
+      "terms_notes": null
     },
     {
       "id": "doc-216f86d3b9af",
+      "cycle_id": "na15-2021",
       "title": "VTV report: ineligible winning candidate (Bình Dương)",
       "url": "https://web.archive.org/web/20210621105212/https://vtv.vn/chinh-tri/khong-xac-nhan-tu-cach-dai-bieu-quoc-hoi-voi-bi-thu-tinh-uy-binh-duong-20210610192156321.htm",
       "file_path": null,
       "doc_type": "web",
       "published_date": "2021-06-10",
       "fetched_date": "2026-01-09",
-      "notes": null
+      "notes": null,
+      "terms_status": "UNKNOWN",
+      "terms_url": null,
+      "terms_checked_at": "2026-01-09",
+      "terms_notes": null
     }
   ]
 }
