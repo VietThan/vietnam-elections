@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 import csv
-import json
 import glob
 import hashlib
+import json
 import os
 import re
 import sqlite3
 import unicodedata
+from datetime import datetime
 
 
 DATA_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(DATA_DIR)
 DB_PATH = os.path.join(ROOT, "staging.db")
 MANUAL_TIMELINES_PATH = os.path.join(ROOT, "manual", "timelines.json")
+DATASET_PATH = os.path.join(DATA_DIR, "dataset.yml")
 
 ELECTION_CYCLE_ID = "na15-2021"
 ELECTION_CYCLE_NAME = "15th National Assembly"
@@ -189,6 +191,7 @@ def init_db(conn: sqlite3.Connection) -> None:
 
         CREATE TABLE IF NOT EXISTS document (
           id TEXT PRIMARY KEY,
+          cycle_id TEXT REFERENCES election_cycle(id) ON DELETE CASCADE,
           title TEXT NOT NULL,
           url TEXT,
           file_path TEXT,
@@ -197,6 +200,20 @@ def init_db(conn: sqlite3.Connection) -> None:
           fetched_date TEXT,
           notes TEXT
         );
+
+        CREATE TABLE IF NOT EXISTS document_terms (
+          id TEXT PRIMARY KEY,
+          document_id TEXT NOT NULL REFERENCES document(id) ON DELETE CASCADE,
+          cycle_id TEXT REFERENCES election_cycle(id) ON DELETE CASCADE,
+          terms_status TEXT NOT NULL,
+          terms_url TEXT,
+          terms_checked_at TEXT,
+          terms_notes TEXT,
+          created_at TEXT
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_document_terms_latest
+          ON document_terms (document_id, terms_checked_at);
 
         CREATE TABLE IF NOT EXISTS source (
           id TEXT PRIMARY KEY,
@@ -308,6 +325,12 @@ def load_documents(conn: sqlite3.Connection) -> None:
             "fetched_date": RESULTS_FETCHED_DATE,
         },
         {
+            "title": "Candidate list source page (Bao Chinh Phu)",
+            "url": DOC_URL_DOCX_LIST,
+            "doc_type": "web",
+            "fetched_date": DOCUMENT_FETCHED_DATE,
+        },
+        {
             "title": "VTV report: ineligible winning candidate (Bình Dương)",
             "url": DOC_URL_VTV_INELIGIBLE,
             "doc_type": "web",
@@ -342,17 +365,92 @@ def load_documents(conn: sqlite3.Connection) -> None:
         conn.execute(
             """
             INSERT INTO document
-              (id, title, url, file_path, doc_type, published_date, fetched_date)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+              (id, cycle_id, title, url, file_path, doc_type, published_date, fetched_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 doc_id,
+                ELECTION_CYCLE_ID,
                 doc["title"],
                 doc.get("url"),
                 doc.get("file_path"),
                 doc["doc_type"],
                 doc.get("published_date"),
                 doc.get("fetched_date"),
+            ),
+        )
+
+
+def load_dataset_terms() -> list[dict]:
+    try:
+        import yaml  # type: ignore
+    except ImportError as exc:
+        raise SystemExit("PyYAML is required (pip install pyyaml).") from exc
+
+    if not os.path.exists(DATASET_PATH):
+        return []
+
+    with open(DATASET_PATH, "r", encoding="utf-8") as handle:
+        payload = yaml.safe_load(handle) or {}
+
+    sources = payload.get("sources", []) or []
+    default_cycle_id = payload.get("cycle_id")
+    terms_entries: list[dict] = []
+    for source in sources:
+        document_id = source.get("document_id")
+        if not document_id:
+            raise ValueError("dataset.yml source missing document_id")
+        terms_status = source.get("terms_status")
+        if not terms_status:
+            raise ValueError(f"dataset.yml source {document_id} missing terms_status")
+        terms_checked_at = source.get("terms_checked_at")
+        if not terms_checked_at:
+            raise ValueError(f"dataset.yml source {document_id} missing terms_checked_at")
+        terms_entries.append(
+            {
+                "document_id": document_id,
+                "cycle_id": source.get("cycle_id") or default_cycle_id,
+                "terms_status": terms_status,
+                "terms_url": source.get("terms_url"),
+                "terms_checked_at": terms_checked_at,
+                "terms_notes": source.get("terms_notes"),
+            }
+        )
+    return terms_entries
+
+
+def seed_document_terms(conn: sqlite3.Connection) -> None:
+    terms_entries = load_dataset_terms()
+    if not terms_entries:
+        return
+
+    created_at = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    for entry in terms_entries:
+        document_id = entry["document_id"]
+        doc_row = conn.execute(
+            "SELECT id FROM document WHERE id = ?", (document_id,)
+        ).fetchone()
+        if not doc_row:
+            raise ValueError(f"document_id not found in document table: {document_id}")
+        terms_id = make_id(
+            "terms-",
+            f"{document_id}|{entry['terms_status']}|{entry['terms_checked_at']}|{entry.get('terms_url') or ''}",
+        )
+        conn.execute(
+            """
+            INSERT INTO document_terms
+              (id, document_id, cycle_id, terms_status, terms_url, terms_checked_at, terms_notes, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                terms_id,
+                document_id,
+                entry.get("cycle_id"),
+                entry["terms_status"],
+                entry.get("terms_url"),
+                entry["terms_checked_at"],
+                entry.get("terms_notes"),
+                created_at,
             ),
         )
 
@@ -1120,6 +1218,7 @@ def main() -> None:
                 ),
             )
         load_documents(conn)
+        seed_document_terms(conn)
         maps = load_congressional_units(conn)
         load_candidates(conn, maps["locality_key_map"], maps["constituency_map"])
         add_candidate_sources(conn)

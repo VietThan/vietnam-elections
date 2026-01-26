@@ -12,6 +12,10 @@
 - Build the staging database: `python3 data/na15-2021/build-staging-db.py` (creates `data/staging.db`)
 - Run QA checks: `python3 data/na15-2021/qa-checks.py`
 - Export JSON for the site: `python3 data/na15-2021/export-json.py` (writes to `public/data/elections/na15-2021/`)
+Note: these scripts require PyYAML (`pip install pyyaml`).
+
+## Dataset metadata
+- `data/na15-2021/dataset.yml` is the authoritative source for per-document terms status and metadata.
 
 ## Outputs
 - SQLite staging DB: `data/staging.db`

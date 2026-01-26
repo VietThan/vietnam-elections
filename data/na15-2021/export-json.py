@@ -88,10 +88,46 @@ def fetch_sources(conn: sqlite3.Connection, record_type: str, record_id: str) ->
     ]
 
 
+def fetch_latest_terms(
+    conn: sqlite3.Connection, document_id: str, cycle_id: str | None
+) -> dict | None:
+    if cycle_id:
+        row = conn.execute(
+            """
+            SELECT terms_status, terms_url, terms_checked_at, terms_notes
+            FROM document_terms
+            WHERE document_id = ?
+              AND (cycle_id = ? OR cycle_id IS NULL)
+            ORDER BY terms_checked_at DESC, created_at DESC
+            LIMIT 1
+            """,
+            (document_id, cycle_id),
+        ).fetchone()
+    else:
+        row = conn.execute(
+            """
+            SELECT terms_status, terms_url, terms_checked_at, terms_notes
+            FROM document_terms
+            WHERE document_id = ?
+            ORDER BY terms_checked_at DESC, created_at DESC
+            LIMIT 1
+            """,
+            (document_id,),
+        ).fetchone()
+    if not row:
+        return None
+    return {
+        "terms_status": row["terms_status"],
+        "terms_url": row["terms_url"],
+        "terms_checked_at": row["terms_checked_at"],
+        "terms_notes": row["terms_notes"],
+    }
+
+
 def fetch_document(conn: sqlite3.Connection, document_id: str) -> dict | None:
     row = conn.execute(
         """
-        SELECT id, title, url, file_path, doc_type, published_date, fetched_date, notes
+        SELECT id, cycle_id, title, url, file_path, doc_type, published_date, fetched_date, notes
         FROM document
         WHERE id = ?
         """,
@@ -99,8 +135,10 @@ def fetch_document(conn: sqlite3.Connection, document_id: str) -> dict | None:
     ).fetchone()
     if not row:
         return None
-    return {
+    terms = fetch_latest_terms(conn, row["id"], row["cycle_id"])
+    payload = {
         "id": row["id"],
+        "cycle_id": row["cycle_id"],
         "title": row["title"],
         "url": row["url"],
         "file_path": row["file_path"],
@@ -109,6 +147,9 @@ def fetch_document(conn: sqlite3.Connection, document_id: str) -> dict | None:
         "fetched_date": row["fetched_date"],
         "notes": row["notes"],
     }
+    if terms:
+        payload.update(terms)
+    return payload
 
 
 def export_cycle(conn: sqlite3.Connection) -> None:
@@ -369,6 +410,7 @@ def export_cycle(conn: sqlite3.Connection) -> None:
             "records": [
                 {
                     "id": row["id"],
+                    "cycle_id": row["cycle_id"],
                     "title": row["title"],
                     "url": row["url"],
                     "file_path": row["file_path"],
@@ -376,13 +418,41 @@ def export_cycle(conn: sqlite3.Connection) -> None:
                     "published_date": row["published_date"],
                     "fetched_date": row["fetched_date"],
                     "notes": row["notes"],
+                    "terms_status": row["terms_status"],
+                    "terms_url": row["terms_url"],
+                    "terms_checked_at": row["terms_checked_at"],
+                    "terms_notes": row["terms_notes"],
                 }
                 for row in conn.execute(
                     """
-                    SELECT id, title, url, file_path, doc_type, published_date, fetched_date, notes
-                    FROM document
-                    ORDER BY title
-                    """
+                    SELECT
+                      d.id,
+                      d.cycle_id,
+                      d.title,
+                      d.url,
+                      d.file_path,
+                      d.doc_type,
+                      d.published_date,
+                      d.fetched_date,
+                      d.notes,
+                      t.terms_status,
+                      t.terms_url,
+                      t.terms_checked_at,
+                      t.terms_notes
+                    FROM document d
+                    LEFT JOIN document_terms t
+                      ON t.id = (
+                        SELECT id
+                        FROM document_terms dt
+                        WHERE dt.document_id = d.id
+                          AND (dt.cycle_id = ? OR dt.cycle_id IS NULL)
+                        ORDER BY dt.terms_checked_at DESC, dt.created_at DESC
+                        LIMIT 1
+                      )
+                    WHERE d.cycle_id = ? OR d.cycle_id IS NULL
+                    ORDER BY d.title
+                    """,
+                    (cycle_id, cycle_id),
                 ).fetchall()
             ],
         },

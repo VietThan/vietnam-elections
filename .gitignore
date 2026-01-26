@@ -42,3 +42,6 @@ next-env.d.ts
 
 # .local directory for devs
 .local/
+
+# python virtualenvs
+.venv/

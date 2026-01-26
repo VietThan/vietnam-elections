@@ -6,11 +6,27 @@ import sys
 
 DATA_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(os.path.dirname(DATA_DIR), "staging.db")
+DATASET_PATH = os.path.join(DATA_DIR, "dataset.yml")
 
 
 def fetch_all(conn: sqlite3.Connection, query: str, params: tuple = ()) -> list[sqlite3.Row]:
     cur = conn.execute(query, params)
     return cur.fetchall()
+
+
+def load_dataset_sources() -> tuple[str | None, list[dict]]:
+    try:
+        import yaml  # type: ignore
+    except ImportError as exc:
+        raise SystemExit("PyYAML is required (pip install pyyaml).") from exc
+
+    if not os.path.exists(DATASET_PATH):
+        return None, []
+
+    with open(DATASET_PATH, "r", encoding="utf-8") as handle:
+        payload = yaml.safe_load(handle) or {}
+
+    return payload.get("cycle_id"), payload.get("sources", []) or []
 
 
 def main() -> int:
@@ -127,6 +143,41 @@ def main() -> int:
         document_count = fetch_all(conn, "SELECT COUNT(*) AS cnt FROM document")
         if document_count and document_count[0]["cnt"] == 0:
             warnings.append("No documents recorded in document table")
+
+        dataset_cycle_id, dataset_sources = load_dataset_sources()
+        for source in dataset_sources:
+            source_id = source.get("id", "unknown-source")
+            document_id = source.get("document_id")
+            terms_status = source.get("terms_status")
+            terms_checked_at = source.get("terms_checked_at")
+            if not document_id:
+                errors.append(f"dataset.yml source missing document_id: {source_id}")
+                continue
+            if not terms_status:
+                errors.append(f"dataset.yml source missing terms_status: {source_id}")
+            if not terms_checked_at:
+                errors.append(f"dataset.yml source missing terms_checked_at: {source_id}")
+
+            doc_exists = fetch_all(
+                conn, "SELECT id FROM document WHERE id = ?", (document_id,)
+            )
+            if not doc_exists:
+                errors.append(f"dataset.yml document_id not in document table: {document_id}")
+
+            terms_exists = fetch_all(
+                conn,
+                """
+                SELECT id
+                FROM document_terms
+                WHERE document_id = ?
+                  AND (cycle_id = ? OR cycle_id IS NULL)
+                """,
+                (document_id, dataset_cycle_id),
+            )
+            if not terms_exists:
+                errors.append(
+                    f"document_terms missing for dataset.yml document_id: {document_id}"
+                )
     finally:
         conn.close()
 
